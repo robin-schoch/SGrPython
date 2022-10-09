@@ -1,11 +1,10 @@
 # Open CEM project
 
-Open Customer Energy Manager
-Smart Energy Engineering, September 2022, David Zogg
+Open Customer Energy Manager, Smart Energy Engineering, September 2022, David Zogg
 
 ## 1) Introduction
 
-The Open Customer Energy Manager (OpenCEM) is a project to demonstrate the functionality of SmartGridReady within a fully working energy manager. The energy manager includes all controllers required to control typical installations with pv plants, heat pumps, ev-chargers, boilers, etc.
+The Open Customer Energy Manager (OpenCEM) is a project to demonstrate the functionality of SmartgridReady within a fully working energy manager. The energy manager includes some example controllers required to control typical installations with pv plants, heat pumps, ev-chargers, boilers, etc.
 
 For a detailed documentation of the Open Customer Energy Manager refer to the folder "Documentation"
 
@@ -16,5 +15,7 @@ The OpenCEM project consists of the following libraries and a main program:
 - cem_lib_controllers: defines some example controller classes for local pv optimization or grid interaction
 - cem_main_test: simple test program to demonstrate how to use the component and controller classes above. Note that in the current version this program is not designed to run in real time applications.
 
+## 3) Integration of SGrPython
 
+OpenCEM is based on the SmartgridReady implementation in Python (SGrPython), see separate documentation.
 

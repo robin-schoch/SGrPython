@@ -1,0 +1,41 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>10</x><y>80</y><w>350</w><h>190</h></coordinates><panel_attributes>bg=green
+*generic_interface.Parser*
+--
+*root: XML.etree.ElementTree.parse.getroot*
+device: string  # deviceName
+namespaces: string # http://www.smartgridready.ch/ns/SGr/Vn/
+registers: list # Modbus registers
+--
+__init__(XML_file)  # Parses XML files for Modbus
+registers_return()  # return Modbus registers
+fp_return()  # return functional profiles             
+address_return()  # return Modbus address
+port_return() # return Modbus port
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>370</x><y>80</y><w>380</w><h>190</h></coordinates><panel_attributes>bg=blue
+*EI4Modbus*
+--
+modbus_interface: dataset(port, address, ...)
+*root: XML.etree.ElementTree.parse.getroot*
+namespaces: string # http://www.smartgridready.ch/ns/SGr/Vn/
+client: ModbusTcpClient
+--
+__init__(port, address, XML_file)  # Parses XML files for Modbus
+value = get(addr)  # read from Modbus registers
+put(addr, value)  # write to Modbus registers
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>10</y><w>780</w><h>40</h></coordinates><panel_attributes>halign=left
+Documentation of External Interface, Project OpenCEM
+doc_external_interface.uxf, generic_interface.py, EI4_Modbus_new.py, V0.2, 09.06.2022, CLEMAP GmbH / Smart Energy Engineering GmbH</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>310</y><w>740</w><h>140</h></coordinates><panel_attributes>bg=red
+halign=left
+*Questions:*
+Why two interfaces?
+Generic interface contains Modbus-specific code.
+Should EI4Modbus be inheritet from generic_interface?
+Modbus register size/type info in XML file not properly defined yet.
+
+Are these old versions or versions under construction?
+Where are "mature" versions on GitHub for sharing?
+
+
+</panel_attributes><additional_attributes></additional_attributes></element></diagram>

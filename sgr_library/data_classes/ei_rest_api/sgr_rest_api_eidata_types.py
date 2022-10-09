@@ -1,13 +1,13 @@
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Optional
-from data_classes.ei_gen_tcp_ip.sgr_tsp_srv_tcp_ip import (
+from sgr_library.data_classes.ei_gen_tcp_ip.sgr_tsp_srv_tcp_ip import (
     TPipV4GenAddrType,
     TPipV6GenAddrType,
 )
-from data_classes.generic.sgr_gen_data_point_definition import SgrDataPointDescriptionType
-from data_classes.generic.sgr_gen_functional_profile_definition import SgrProfileDescriptionType
-from data_classes.generic.sgr_gen_type_definitions import SgrAttr4GenericType
+from sgr_library.data_classes.generic.sgr_gen_data_point_definition import SgrDataPointDescriptionType
+from sgr_library.data_classes.generic.sgr_gen_functional_profile_definition import SgrProfileDescriptionType
+from sgr_library.data_classes.generic.sgr_gen_type_definitions import SgrAttr4GenericType
 
 __NAMESPACE__ = "http://www.smartgridready.com/ns/V0/"
 

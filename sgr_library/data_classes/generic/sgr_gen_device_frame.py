@@ -1,13 +1,13 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
-from data_classes.generic.sgr_gen_data_point_definition import SgrDataPointDescriptionType
-from data_classes.generic.sgr_gen_device_profile import SgrDeviceProfileType
-from data_classes.generic.sgr_gen_functional_profile_definition import SgrProfileDescriptionType
-from data_classes.generic.sgr_gen_type_definitions import (
+from sgr_library.data_classes.generic.sgr_gen_data_point_definition import SgrDataPointDescriptionType
+from sgr_library.data_classes.generic.sgr_gen_device_profile import SgrDeviceProfileType
+from sgr_library.data_classes.generic.sgr_gen_functional_profile_definition import SgrProfileDescriptionType
+from sgr_library.data_classes.generic.sgr_gen_type_definitions import (
     SgrAttr4GenericType,
     SgrReleaseNotes,
 )
-from data_classes.generic.sgr_manufacturer_list import SgrManufacturerIdtype
+from sgr_library.data_classes.generic.sgr_manufacturer_list import SgrManufacturerIdtype
 
 __NAMESPACE__ = "http://www.smartgridready.com/ns/V0/"
 

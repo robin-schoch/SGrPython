@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
-from data_classes.generic.sgr_gen_type_definitions import (
+from sgr_library.data_classes.generic.sgr_gen_type_definitions import (
     SgrBasicGenArrayDptypeType,
     SgrBasicGenDataPointTypeType,
     SgrLegibDocumentationType,

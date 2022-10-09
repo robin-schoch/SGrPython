@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import List, Optional
-from data_classes.generic.sgr_gen_type_definitions import (
+from sgr_library.data_classes.generic.sgr_gen_type_definitions import (
     SgrLegibDocumentationType,
     SgrMropresenceLevelIndicationType,
     SgrNamelistType,

@@ -1,6 +1,6 @@
 from xml.dom.minidom import Element
-from modbus_interface import SgrModbusInterface
-from restapi_interface import RestapiInterface
+from sgr_library.modbus_interface import SgrModbusInterface
+from sgr_library.restapi_interface import RestapiInterface
 import os
 import configparser
 import xml.etree.ElementTree as ET

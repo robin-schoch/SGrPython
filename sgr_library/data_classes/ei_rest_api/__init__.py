@@ -1,4 +1,4 @@
-from data_classes.ei_rest_api.sgr_rest_api_eidata_types import (
+from sgr_library.data_classes.ei_rest_api.sgr_rest_api_eidata_types import (
     SgrRestBasicType,
     SgrrestApibearerType,
     SgrAttr4RestApitype,
@@ -10,7 +10,7 @@ from data_classes.ei_rest_api.sgr_rest_api_eidata_types import (
     SgrRestApiprofilesFrameType,
     SgrRestApidataTypeType,
 )
-from data_classes.ei_rest_api.sgr_rest_api_eidevice_frame import (
+from sgr_library.data_classes.ei_rest_api.sgr_rest_api_eidevice_frame import (
     SgrRestapideviceDescriptionType,
     SgrRestApideviceFrame,
     SgrRestDataPointsFrameType,

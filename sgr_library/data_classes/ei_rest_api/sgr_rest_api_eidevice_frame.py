@@ -1,17 +1,17 @@
 from dataclasses import dataclass, field
 from typing import List, Optional
-from data_classes.ei_rest_api.sgr_rest_api_eidata_types import (
+from sgr_library.data_classes.ei_rest_api.sgr_rest_api_eidata_types import (
     SgrAttr4RestApitype,
     SgrRestApidataPointDescriptionType,
     SgrRestApidataPointsFrameType,
     SgrRestApiinterfaceDescriptionType,
     SgrRestApiprofilesFrameType,
 )
-from data_classes.generic.sgr_gen_data_point_definition import SgrDataPointDescriptionType
-from data_classes.generic.sgr_gen_device_profile import SgrDeviceProfileType
-from data_classes.generic.sgr_gen_functional_profile_definition import SgrProfileDescriptionType
-from data_classes.generic.sgr_gen_type_definitions import SgrAttr4GenericType
-from data_classes.generic.sgr_manufacturer_list import SgrManufacturerIdtype
+from sgr_library.data_classes.generic.sgr_gen_data_point_definition import SgrDataPointDescriptionType
+from sgr_library.data_classes.generic.sgr_gen_device_profile import SgrDeviceProfileType
+from sgr_library.data_classes.generic.sgr_gen_functional_profile_definition import SgrProfileDescriptionType
+from sgr_library.data_classes.generic.sgr_gen_type_definitions import SgrAttr4GenericType
+from sgr_library.data_classes.generic.sgr_manufacturer_list import SgrManufacturerIdtype
 
 __NAMESPACE__ = "http://www.smartgridready.com/ns/V0/"
 

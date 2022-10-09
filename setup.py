@@ -17,10 +17,10 @@ setup(
     install_requires=[
         'Jinja2==3.1.2',
         'jmespath==0.10.0',
-        'numpy==1.20.3',
         'pymodbus==2.5.3',
         'setuptools==58.0.4',
-        'xsdata==22.5'
+        'xsdata==22.5',
+        'numpy==1.20.3'
 ],
     keywords=['python', 'SGr'],
     classifiers=[

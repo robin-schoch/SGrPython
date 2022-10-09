@@ -1,24 +1,24 @@
-from data_classes.generic.sgr_gen_data_point_definition import SgrDataPointDescriptionType
-from data_classes.generic.sgr_gen_device_frame import (
+from sgr_library.data_classes.generic.sgr_gen_data_point_definition import SgrDataPointDescriptionType
+from sgr_library.data_classes.generic.sgr_gen_device_frame import (
     GenDeviceFrame,
     SgrDataPointsFrameType,
     SgrDeviceDescriptionType,
     SgrFunctionalProfileDescriptionType,
     SgrProfilesFrameType,
 )
-from data_classes.generic.sgr_gen_device_profile import (
+from sgr_library.data_classes.generic.sgr_gen_device_profile import (
     DeviceProfile,
     SgrDeviceProfileType,
     SgrInterfaceDescriptionType,
     SgrTransportServicesUsedListType,
 )
-from data_classes.generic.sgr_gen_functional_profile_definition import (
+from sgr_library.data_classes.generic.sgr_gen_functional_profile_definition import (
     ProfileTypeEnumType,
     SgrProfileDescriptionType,
     SgrProfilenumberType,
     SubProfileTypeEnumType,
 )
-from data_classes.generic.sgr_gen_type_definitions import (
+from sgr_library.data_classes.generic.sgr_gen_type_definitions import (
     SgreadyStateLv1Type,
     SgreadyStateLv2Type,
     SgrAttr4GenericType,
@@ -58,7 +58,7 @@ from data_classes.generic.sgr_gen_type_definitions import (
     SgrUnits,
     SgrVersionNumberType,
 )
-from data_classes.generic.sgr_manufacturer_list import SgrManufacturerIdtype
+from sgr_library.data_classes.generic.sgr_manufacturer_list import SgrManufacturerIdtype
 
 __all__ = [
     "SgrDataPointDescriptionType",

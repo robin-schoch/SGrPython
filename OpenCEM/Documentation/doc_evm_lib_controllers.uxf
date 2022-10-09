@@ -1,0 +1,58 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>370</x><y>50</y><w>210</w><h>190</h></coordinates><panel_attributes>bg=gray
+*controller*
+{abstract}
+--
+name: string
+type: string
+signal: float
+output: float
+--
+__init__(name)
+get_type()
+calc_output()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>320</y><w>210</w><h>190</h></coordinates><panel_attributes>bg=blue
+*excess_controller*
+--
+limit: float
+--
+__init__(name)
+set_limit(limit)
+calc_output(...)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>240</x><y>320</y><w>210</w><h>190</h></coordinates><panel_attributes>bg=blue
+*stepwise_excess_controller*
+--
+limit: float
+--
+__init__(name)
+set_limits(limits_list)
+calc_output(...)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>480</x><y>320</y><w>210</w><h>190</h></coordinates><panel_attributes>bg=yellow
+*coverage_controller*
+--
+limit: float
+--
+__init__(name)
+set_limit(limit)
+calc_output(...)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>480</x><y>560</y><w>210</w><h>120</h></coordinates><panel_attributes>bg=yellow
+*adaptive_coverage_controller*
+--
+limit: float
+--
+__init__(name)
+calc_limit(...)
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>720</x><y>320</y><w>210</w><h>190</h></coordinates><panel_attributes>bg=green
+*price_controller*
+--
+min_state: float
+max_state: float
+solar_tarif: float
+grid_tarif:float
+--
+__init__(name)
+set_params(...)
+calc_output(...)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>110</x><y>230</y><w>300</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>280;10;280;50;10;50;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>400</x><y>230</y><w>70</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>50;10;50;50;10;50;10;90</additional_attributes></element><element><id>Relation</id><coordinates><x>480</x><y>230</y><w>90</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;50;70;50;70;90</additional_attributes></element><element><id>Relation</id><coordinates><x>550</x><y>230</y><w>290</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;50;270;50;270;90</additional_attributes></element><element><id>Relation</id><coordinates><x>580</x><y>500</y><w>30</w><h>80</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;60</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>0</y><w>780</w><h>40</h></coordinates><panel_attributes>halign=left
+Documentation of Controllers Library, Project OpenCEM
+doc_evm_lib_controllers.uxf, evm_lib_controllers.py, V0.2, 09.06.2022, D. Zogg, Smart Energy Engineering GmbH</panel_attributes><additional_attributes></additional_attributes></element></diagram>

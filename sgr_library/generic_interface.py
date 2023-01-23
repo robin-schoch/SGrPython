@@ -1,12 +1,18 @@
 from xml.dom.minidom import Element
+
+from xsdata.formats.dataclass.context import XmlContext
+from xsdata.formats.dataclass.parsers import XmlParser
+
+from sgr_library.data_classes.ei_modbus import SgrModbusDeviceFrame, SgrModbusDataPointType
 from sgr_library.modbus_interface import SgrModbusInterface
 from sgr_library.restapi_interface import RestapiInterface
+from sgr_library.modbusRTU_interface import SgrModbusRtuInterface
 import os
 import configparser
 import xml.etree.ElementTree as ET
 
 
-def get_protocol(xml_file:str) -> str:
+def get_protocol(xml_file: str) -> str:
     """
     Searches for protocol type in xml file
     :return: 
@@ -17,8 +23,17 @@ def get_protocol(xml_file:str) -> str:
     return protocol_type
 
 
-class GenericInterface(SgrModbusInterface, RestapiInterface):
+def get_modbusInterfaceSelection(xml_file: str) -> str:
+    """
+    Searches for selected Modbus Interface in XML file
+    """
+    parser = XmlParser(context=XmlContext())
+    root = parser.parse(xml_file, SgrModbusDeviceFrame)
 
+    return (root.modbus_interface_desc.modbus_interface_selection.value)
+
+
+class GenericInterface(SgrModbusInterface, RestapiInterface, SgrModbusRtuInterface):
 
     def __init__(self, xml_file: str, config=None) -> None:
         """
@@ -28,25 +43,67 @@ class GenericInterface(SgrModbusInterface, RestapiInterface):
         self.protocol_type = get_protocol(xml_file)
         self.modbus_protocol = ['SGrModbusDeviceFrame', 'SGrModbusDeviceDescriptionType']
         self.restapi_protocol = ['SGrRESTAPIDeviceDescriptionType']
+        self.interface_type = ""  # The type of the Interface used
 
         if self.protocol_type in self.modbus_protocol:
-            SgrModbusInterface.__init__(self, xml_file)
+            if get_modbusInterfaceSelection(xml_file) == "RTU":  # Todo if RTU choose modbusRTU_interface?
+                SgrModbusRtuInterface.__init__(self, xml_file)
+                self.interface_type = "RTU"
+            else:
+                SgrModbusInterface.__init__(self,
+                                            xml_file)  # Todo maybe smarter to have a parameter for tcp/rtu? or parse the XML before and get value <sgr:modbusInterfaceSelection> = RTU
+                self.interface_type = "TCP"
         elif self.protocol_type in self.restapi_protocol:
             RestapiInterface.__init__(self, xml_file, config_file)
+            self.interface_type = "REST"
 
     def getval(self, *parameter) -> tuple:
         if self.protocol_type in self.modbus_protocol:
-            return(SgrModbusInterface.getval(self, *parameter))
+            return (SgrModbusInterface.getval(self, *parameter))
         elif self.protocol_type in self.restapi_protocol:
-            return(RestapiInterface.getval(self, *parameter))
-        
+            return (RestapiInterface.getval(self, *parameter))
+
+    def get_multiplicator(self, dp: SgrModbusDataPointType) -> int:
+        match self.interface_type:
+            case "RTU":
+                return SgrModbusRtuInterface.get_multiplicator(self, dp)
+            case "TCP":
+                return SgrModbusInterface.get_multiplicator(self, dp)
+            case "REST:":
+                raise NotImplementedError
+
+    def get_power_10(self, dp: SgrModbusDataPointType)->int:
+        match self.interface_type:
+            case "RTU":
+                return SgrModbusRtuInterface.get_power_10(self, dp)
+            case "TCP":
+                return SgrModbusInterface.get_power_10(self, dp)
+            case "REST:":
+                raise NotImplementedError
+
+    def get_unit(self, dp: SgrModbusDataPointType):
+        match self.interface_type:
+            case "RTU":
+                return SgrModbusRtuInterface.get_unit(self, dp)
+            case "TCP":
+                return SgrModbusInterface.get_unit(self, dp)
+            case "REST:":
+                raise NotImplementedError
+
+    def get_pymodbus_client(self):
+        match self.interface_type:
+            case "RTU":
+                return SgrModbusRtuInterface.get_pymodbus_client(self)
+            case "TCP":
+                raise NotImplementedError
+            case "REST:":
+                raise NotImplementedError
 
 if __name__ == "__main__":
-
     energy_monitor_config_file_path_default = os.path.join(
-        os.path.dirname(os.path.realpath(__file__)), 
+        os.path.dirname(os.path.realpath(__file__)),
         'config_CLEMAPEnMon_ressource_default.ini'
-        )
+    )
     config_file = configparser.ConfigParser()
     config_file.read(energy_monitor_config_file_path_default)
 

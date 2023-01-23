@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from enum import Enum
 from typing import Optional
-from sgr_library.data_classes.ei_gen_serial_int.sgr_serial_int_capability import (
+from sgr_library.data_classes.generic.sgr_serial_int_capability import (
     SgrSerialInterfaceCapabilityType,
     EBaudRateType,
     EByteLenType,

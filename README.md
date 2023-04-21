@@ -56,3 +56,14 @@ You don't have to do this, since the classes come included in the pip install, b
 - requirements.txt: required libraries are included in the setup of the file, but in case these fail, install from requierements.txt file.
 	
 		pip install -r requirements.txt
+
+## 4) Using Docker
+- build the docker image:
+```
+docker build --no-cache -t sgr-python .
+```
+- run the docker container based on the previously built docker image:
+```
+docker run --rm sgr-python python3 SGr_test_lehmann.py
+```
+

@@ -2,7 +2,7 @@
 import xml.etree.ElementTree as ET
 from typing import Optional, Tuple, Dict, Any, Iterable
 from sgr_library.data_classes.ei_modbus.sgr_modbus_eidevice_frame import SgrModbusDataPointType, SgrModbusDeviceFrame
-from exceptions import DataPointException, FunctionalProfileException
+from sgr_library.exceptions import DataPointException, FunctionalProfileException
 
 from xsdata.formats.dataclass.context import XmlContext
 from xsdata.formats.dataclass.parsers import XmlParser

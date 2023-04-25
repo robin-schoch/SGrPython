@@ -18,7 +18,7 @@ from data_classes.ei_modbus.sgr_modbus_eidata_types import (
     TPIpmodbus,
     TPRtumodbus,
     TSgrModbusRegisterRef,
-    TimeSyncBlockNotificationType,
+    # TimeSyncBlockNotificationType,
 )
 from data_classes.ei_modbus.sgr_modbus_eidevice_frame import (
     SgrModbusDataPointType,
@@ -56,7 +56,7 @@ __all__ = [
     "TPIpmodbus",
     "TPRtumodbus",
     "TSgrModbusRegisterRef",
-    "TimeSyncBlockNotificationType",
+    # "TimeSyncBlockNotificationType",
     "SgrModbusDataPointType",
     "SgrModbusDeviceFrame",
     "SgrModbusFunctionalProfileType",

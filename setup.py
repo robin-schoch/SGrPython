@@ -18,9 +18,10 @@ setup(
         'Jinja2==3.1.2',
         'jmespath==0.10.0',
         'numpy==1.20.3',
-        'pymodbus==2.5.3',
+        'pymodbus==3.2.2',
         'setuptools==58.0.4',
-        'xsdata==22.5'
+        'aiohttp==3.8.4',
+        'xsdata'
 ],
     keywords=['python', 'SGr'],
     classifiers=[

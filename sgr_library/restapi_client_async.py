@@ -43,7 +43,7 @@ class SgrRestInterface():
 
         #config file
         private_config = config_file
-        config_file_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), private_config)
+        config_file_path = os.path.join(os.getcwd(), private_config)
         parser = configparser.ConfigParser()
         parser.read(config_file_path)
         user = parser.get('AUTHENTICATION', 'username', fallback=None)

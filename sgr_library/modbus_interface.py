@@ -8,7 +8,7 @@ import time
 from sgr_library.data_classes.ei_modbus import SgrModbusDeviceFrame
 from sgr_library.data_classes.ei_modbus.sgr_modbus_eidevice_frame import SgrModbusDataPointType
 from sgr_library.modbus_client import SGrModbusClient
-from auxiliary_functions import find_dp
+from sgr_library.auxiliary_functions import find_dp
 import asyncio
 
 

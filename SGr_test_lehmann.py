@@ -1,10 +1,6 @@
-from sgr_library.modbus_interface import SgrModbusInterface
-from sgr_library.restapi_client_async import SgrRestInterface
 from sgr_library.generic_interface import GenericInterface
 
 import asyncio
-from sgr_library.auxiliary_functions import get_protocol,get_modbusInterfaceSelection
-from sgr_library.modbusRTU_interface_async import SgrModbusRtuInterface
 
 if __name__ == "__main__":
 
@@ -17,11 +13,15 @@ if __name__ == "__main__":
     restapi_component = GenericInterface(interface_file_rest, config_file_rest)
     await restapi_component.authenticate()
 
+    # We create a loop where we request a datapoint with a getval of our restapi 
+    # component and a datapoint with a getval of our modbus component.
     while True:
-            
-      value = await restapi_component.getval('ActivePowerAC', 'ActivePowerACtot')
-      print(value)
-      await asyncio.sleep(10)
+        value = await restapi_component.getval('ActivePowerAC', 'ActivePowerACtot')
+        print(value)
+        await asyncio.sleep(10)
+
+        #you could do the same funciton with a asyncio gather functions if you 
+        #want to get the variables "concurrently".
 
   try:
       asyncio.run(test_loop())

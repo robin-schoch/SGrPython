@@ -65,5 +65,5 @@ docker build --no-cache -t sgr-python .
 - run the docker container based on the previously built docker image:
 ```
 docker run --rm sgr-python python3 SGr_test_lehmann.py
-```
 
+```

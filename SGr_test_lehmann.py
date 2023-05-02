@@ -9,7 +9,7 @@ if __name__ == "__main__":
 
     # We instanciate a second interface object with a restapi xml.
     config_file_rest = 'lehmann.ini'
-    interface_file_rest = 'SGr_04_XXXX_LEHMANN_SmartChargeControllerV0.2.0.xml'
+    interface_file_rest = 'xml_files/SGr_04_XXXX_LEHMANN_SmartChargeControllerV0.2.0.xml'
     restapi_component = GenericInterface(interface_file_rest, config_file_rest)
     await restapi_component.authenticate()
 

@@ -2,7 +2,13 @@ FROM python:3.8-slim-buster
 
 WORKDIR /app
 
+# PROD 
 COPY . .
+
+# # DEV
+# COPY xsd_files xsd_files
+# COPY xml_files xml_files
+# COPY requirements.txt requirements.txt
 
 # RUN pip3 install -e .
 RUN pip install -r requirements.txt

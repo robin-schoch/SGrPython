@@ -64,6 +64,15 @@ docker build --no-cache -t sgr-python .
 ```
 - run the docker container based on the previously built docker image:
 ```
-docker run --rm sgr-python python3 SGr_test_lehmann.py
+docker run --rm --name sgr-python-demo sgr-python python3 -u SGr_test_lehmann.py
+```
+- stop the docker container (the code can't be stopped using KeyboardInterrupt)
+```
+docker stop sgr-python-demo
+```
 
+
+- DEV (MLE)
+```
+docker run --rm --name sgr-python-demo -v ${PWD}\sgr_library:/app/sgr_library sgr-python python3 -u SGr_test_lehmann.py
 ```

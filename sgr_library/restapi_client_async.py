@@ -31,37 +31,36 @@ class SgrRestInterface():
     SmartGrid ready External Interface Class for Rest API
     """
 
-    def __init__(self, xml_file, config_file):
+    def __init__(self, xml_string):
         #session
         self.session = aiohttp.ClientSession()
         self.token = None
 
         #xsd parser and file directory
         parser = XmlParser(context=XmlContext())
-        interface_file = xml_file
-        self.root = parser.parse(interface_file, SgrRestApideviceFrame)
+        self.root = parser.from_string(xml_string)
 
-        #config file
-        private_config = config_file
-        config_file_path = os.path.join(os.getcwd(), private_config)
-        parser = configparser.ConfigParser()
-        parser.read(config_file_path)
-        user = parser.get('AUTHENTICATION', 'username', fallback=None)
-        password = parser.get('AUTHENTICATION', 'password', fallback=None)
-        self.sensor_id = parser.get('RESSOURCE', 'sensor_id', fallback=None)
+        # #config file
+        # private_config = config_file
+        # config_file_path = os.path.join(os.getcwd(), private_config)
+        # parser = configparser.ConfigParser()
+        # parser.read(config_file_path)
+        # user = parser.get('AUTHENTICATION', 'username', fallback=None)
+        # password = parser.get('AUTHENTICATION', 'password', fallback=None)
+        # self.sensor_id = parser.get('RESSOURCE', 'sensor_id', fallback=None)
 
-        #TODO this one can be formulated more elegantly with a format() method.
-        request_body = str(self.root.rest_apiinterface_desc.rest_apibearer.service_call.request_body)
-        data = json.loads(request_body)
-        data['email'] = user
-        data['password'] = password
-        self.data = json.dumps(data)
+        # #TODO this one can be formulated more elegantly with a format() method.
+        # request_body = str(self.root.rest_apiinterface_desc.rest_apibearer.service_call.request_body)
+        # data = json.loads(request_body)
+        # data['email'] = user
+        # data['password'] = password
+        # self.data = json.dumps(data)
+        self.data = str(self.root.rest_apiinterface_desc.rest_apibearer.service_call.request_body)
 
         #authentication url
         self.base_url = str(self.root.rest_apiinterface_desc.trsp_srv_rest_uriout_of_box)
         request_path = str(self.root.rest_apiinterface_desc.rest_apibearer.service_call.request_path) #/authentication
         self.authentication_url = 'https://' + self.base_url + request_path 
-        print(self.authentication_url)
 
         #headers
         self.call = self.root.rest_apiinterface_desc.rest_apibearer.service_call
@@ -72,7 +71,7 @@ class SgrRestInterface():
 
     async def authenticate(self):
         async with self.session.post(url=self.authentication_url, headers=self.headers, data =self.data) as res:
-            if res.status == 201:
+            if res.status >= 200 and res.status < 300:
                 print(f"AUTHENTICATION: {res.status}")
                 response = await res.text()
                 token = jmespath.search('accessToken', json.loads(response))
@@ -86,7 +85,6 @@ class SgrRestInterface():
         dp = find_dp(self.root, fp_name, dp_name)
         request_path = dp.rest_apidata_point[0].rest_service_call.request_path
         url = 'https://' + str(self.base_url) + str(request_path)
-        url = url.format(sensor_id=self.sensor_id)
         #TODO add the queryType into an if statement...
         query = str(dp.rest_apidata_point[0].rest_service_call.response_query.query)
 

@@ -1,4 +1,5 @@
-
+import configparser
+import re
 import xml.etree.ElementTree as ET
 from typing import Optional, Tuple, Dict, Any, Iterable
 from sgr_library.data_classes.ei_modbus.sgr_modbus_eidevice_frame import SgrModbusDataPointType, SgrModbusDeviceFrame
@@ -8,13 +9,27 @@ from xsdata.formats.dataclass.context import XmlContext
 from xsdata.formats.dataclass.parsers import XmlParser
 
 
+# Read XML file, replace variables form config file and return xml as string
+def xml_to_string(xml_file:str, config_file:str):
+    xml_string = ""
+    with open(xml_file, 'r') as file:
+        xml_string = file.read()
 
-def get_protocol(xml_file:str) -> str:
+    parser = configparser.ConfigParser()
+    parser.read(config_file)
+    for section in parser.sections():
+        for(key, val) in parser.items(section):
+            pattern = re.compile(r'\{\{\s*' + re.escape(key) + r'\s*\}\}', re.IGNORECASE)
+            xml_string = re.sub(pattern, val, xml_string)
+
+    return xml_string
+
+def get_protocol(xml_string:str) -> str:
     """
     Searches for protocol type in xml file
     :return: protocol type string
     """
-    root = ET.parse(xml_file).getroot()
+    root = ET.fromstring(xml_string)
     element = root.tag
     protocol_type = element.split('}')[1]
     return protocol_type

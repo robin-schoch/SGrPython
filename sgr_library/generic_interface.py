@@ -2,14 +2,16 @@ from sgr_library.modbus_interface import SgrModbusInterface
 from sgr_library.restapi_client_async import SgrRestInterface
 
 import asyncio
-from sgr_library.auxiliary_functions import get_protocol,get_modbusInterfaceSelection
+from sgr_library.auxiliary_functions import get_protocol,get_modbusInterfaceSelection,xml_to_string
 from sgr_library.modbusRTU_interface_async import SgrModbusRtuInterface
 
 
 class GenericInterface:
 
     def __new__(cls, xml_file:str, config_file=None):
-        protocol_type = get_protocol(xml_file)
+        xml_string = xml_to_string(xml_file, config_file)
+
+        protocol_type = get_protocol(xml_string)
         modbus_protocol = ['SGrModbusDeviceFrame', 'SGrModbusDeviceDescriptionType']
         restapi_protocol = ['SGrRESTAPIDeviceDescriptionType', 'SGrRestAPIDeviceFrame']
 
@@ -25,7 +27,7 @@ class GenericInterface:
             return obj
         elif protocol_type in restapi_protocol:
             obj = object.__new__(SgrRestInterface)
-            obj.__init__(xml_file, config_file)
+            obj.__init__(xml_string)
             return obj
         return None
 

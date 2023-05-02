@@ -7,7 +7,7 @@ import os
 from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.context import XmlContext
 
-from sgr_library.data_classes.ei_rest_api import SgrRestApidataPointType, SgrRestApideviceFrame
+from .data_classes.ei_rest_api import SgrRestApidataPointType, SgrRestApideviceFrame
 
 from typing import Any, Optional
 

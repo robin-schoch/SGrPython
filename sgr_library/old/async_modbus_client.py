@@ -1,4 +1,4 @@
-from sgr_library.payload_decoder import PayloadDecoder, PayloadBuilder
+from .payload_decoder import PayloadDecoder, PayloadBuilder
 from pymodbus.constants import Endian
 from pymodbus.client.sync import ModbusTcpClient, ModbusSerialClient
 

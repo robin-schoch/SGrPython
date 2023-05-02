@@ -1,9 +1,9 @@
-from sgr_library.modbus_interface import SgrModbusInterface
-from sgr_library.restapi_client_async import SgrRestInterface
+from .modbus_interface import SgrModbusInterface
+from .restapi_client_async import SgrRestInterface
 
 import asyncio
-from sgr_library.auxiliary_functions import get_protocol,get_modbusInterfaceSelection,xml_to_string
-from sgr_library.modbusRTU_interface_async import SgrModbusRtuInterface
+from .auxiliary_functions import get_protocol,get_modbusInterfaceSelection,xml_to_string
+from .modbusRTU_interface_async import SgrModbusRtuInterface
 
 
 class GenericInterface:

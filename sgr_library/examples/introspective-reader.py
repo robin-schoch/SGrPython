@@ -9,11 +9,11 @@ from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.context import XmlContext
 
 # Import generated Data Classes
-from sgr_library.data_classes.ei_rest_api import SgrRestapideviceDescriptionType
-from sgr_library.data_classes.ei_modbus import SgrModbusDeviceDescriptionType
+from .data_classes.ei_rest_api import SgrRestapideviceDescriptionType
+from .data_classes.ei_modbus import SgrModbusDeviceDescriptionType
 
 # Smartgrid Ready Libraries
-from sgr_library.OLD_restapi_interface import RestapiInterface
+from .OLD_restapi_interface import RestapiInterface
 
 
 ###################################################################################

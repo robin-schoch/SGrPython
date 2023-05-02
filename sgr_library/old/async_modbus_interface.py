@@ -5,9 +5,9 @@ from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.context import XmlContext
 import time
 
-from sgr_library.data_classes.ei_modbus import SgrModbusDeviceFrame
-from sgr_library.data_classes.ei_modbus.sgr_modbus_eidevice_frame import SgrModbusDataPointsFrameType
-from sgr_library.modbus_client import SGrModbusClient
+from .data_classes.ei_modbus import SgrModbusDeviceFrame
+from .data_classes.ei_modbus.sgr_modbus_eidevice_frame import SgrModbusDataPointsFrameType
+from .modbus_client import SGrModbusClient
 
 
 def get_address(root) -> str:

@@ -5,13 +5,13 @@ from pymodbus.constants import Endian
 from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.context import XmlContext
 import time
-from sgr_library.auxiliary_functions import find_dp
+from .auxiliary_functions import find_dp
 
-#from sgr_library.data_classes.ei_modbus import SgrModbusDeviceDescriptionType
-from sgr_library.data_classes.ei_modbus import SgrModbusDeviceFrame
-#from sgr_library.data_classes.ei_modbus.sgr_modbus_eidevice_frame import SgrModbusDataPointsFrameType
-from sgr_library.modbusRTU_client_async import SGrModbusRTUClient
-from sgr_library.data_classes.ei_modbus.sgr_modbus_eidevice_frame import SgrModbusDataPointType
+#from .data_classes.ei_modbus import SgrModbusDeviceDescriptionType
+from .data_classes.ei_modbus import SgrModbusDeviceFrame
+#from .data_classes.ei_modbus.sgr_modbus_eidevice_frame import SgrModbusDataPointsFrameType
+from .modbusRTU_client_async import SGrModbusRTUClient
+from .data_classes.ei_modbus.sgr_modbus_eidevice_frame import SgrModbusDataPointType
 
 
 def get_port(root) -> str:

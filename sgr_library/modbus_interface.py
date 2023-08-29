@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional, Tuple, Dict, Any, Iterable
+
 from pymodbus.constants import Endian
 from xsdata.formats.dataclass.parsers import XmlParser
 from xsdata.formats.dataclass.context import XmlContext
@@ -8,6 +8,8 @@ import time
 from sgr_library.data_classes.ei_modbus import SgrModbusDeviceFrame
 from sgr_library.data_classes.ei_modbus.sgr_modbus_eidevice_frame import SgrModbusDataPointType
 from sgr_library.modbus_client import SGrModbusClient
+from sgr_library.auxiliary_functions import find_dp
+import asyncio
 
 
 def get_address(root) -> str:
@@ -25,12 +27,12 @@ def get_address(root) -> str:
     address += str(root.modbus_interface_desc.trsp_srv_modbus_tcpout_of_box.address.ip_v4n4)
     return address
 
-def get_port(root) -> str:
+def get_port(root) -> int:
     """
     :param root: The root element created with the xsdata parser
     :returns: string with port from xml file.
     """
-    return(str(root.modbus_interface_desc.trsp_srv_modbus_tcpout_of_box.port))
+    return(int(root.modbus_interface_desc.trsp_srv_modbus_tcpout_of_box.port))
 
 def get_slave(root) -> int:
     return(int(root.modbus_interface_desc.trsp_srv_modbus_tcpout_of_box.slave_id))
@@ -41,23 +43,6 @@ def get_endian(root) -> str:
         return(Endian.Big)
     return(Endian.Little)
 
-def find_dp(root, fp_name: str, dp_name: str) -> SgrModbusDataPointType:
-    """
-    Searches the datapoint in the root element.
-    :param root: The root element created with the xsdata parser
-    :param fp_name: The name of the funcitonal profile in which the datapoint resides
-    :param dp_name: The name of the datapoint
-    :returns: The datapoint element found in root, if not, returns None.
-    """
-    for fp in root.fp_list_element:
-            if fp_name == fp.functional_profile.profile_name:
-                #Secondly we filter the datpoint name
-                for dp in fp.dp_list_element:
-                    if dp_name == dp.data_point.datapoint_name:
-                        return dp
-    return None
-
-
 
 class SgrModbusInterface: 
 
@@ -67,15 +52,19 @@ class SgrModbusInterface:
         Parses the xml file with xsdata library.
         :param xml_file: Name of the xml file to parse
         """
-        interface_file = xml_file
-        parser = XmlParser(context=XmlContext())
-        self.root = parser.parse(interface_file, SgrModbusDeviceFrame)
+        print('I Have been created!')
+        self.interface_file = xml_file
+        self.parser = XmlParser(context=XmlContext())
+        self.root = self.parser.parse(self.interface_file, SgrModbusDeviceFrame)
         #self.root = parser.parse(interface_file, SgrModbusDeviceDescriptionType)
         self.ip = get_address(self.root)
         self.port = get_port(self.root)
         self.client = SGrModbusClient(self.ip, self.port)
         self.slave_id = get_slave(self.root)
         self.byte_order = get_endian(self.root)
+        # A dictionary where we cash the value of the datapoint. With name, value, timestamp and alive_time? ;)
+        self.cash_dict = {}
+        
 
     #TODO
     def get_dp_attribute(self, datapoint: str, attribute: str):
@@ -87,47 +76,43 @@ class SgrModbusInterface:
         #TODO
         ...
 
-    #TODO assign multiple dispatch to the function.
-    '''def getval(self, fp_name: str, dp_name: str) -> float:
-        """
-        Reads datapoint value.
-        :param fp_name: The name of the funcitonal profile in which the datapoint resides.
-        :param dp_name: The name of the datapoint.
-        :returns: The current decoded value in the datapoint register.
-        """
-        dp = find_dp(self.root, fp_name, dp_name)
-        address = self.get_address(dp)
-        size = self.get_size(dp)
-        data_type = self.get_datatype(dp)
-        reg_type = self.get_register_type(dp)
-        return self.client.value_decoder(address, size, data_type, reg_type)'''
+    async def getval(self, fp_name, dp_name) -> float:
+            """
+            Reads datapoint value.
 
-    # getval with multiple dispatching
-    def getval(self, *parameter) -> float:
-        """
-        Reads datapoint value.
+            :dp: The already obtained datapoint object
 
-        :dp: The already obtained datapoint object
+            2 parameters alternative:
+            :param fp_name: The name of the functional profile in which the datapoint resides.
+            :param dp_name: The name of the datapoint.
 
-        2 parameters alternative:
-        :param fp_name: The name of the functional profile in which the datapoint resides.
-        :param dp_name: The name of the datapoint.
+            :returns: The current decoded value in the datapoint register.
+            """
+            
+            dp = find_dp(self.root, fp_name, dp_name)
+            address = self.get_address(dp)
+            size = self.get_size(dp)
+            data_type = self.get_datatype(dp)
+            reg_type = self.get_register_type(dp)
+            slave_id = self.slave_id
+            order = self.byte_order
+            answer = await self.client.value_decoder(address, size, data_type, reg_type, slave_id, order)
+            return answer
 
-        :returns: The current decoded value in the datapoint register.
-        """
-        if len(parameter) == 2:
-            dp = find_dp(self.root, parameter[0], parameter[1])
-        else:
-            dp = parameter[0]
-        address = self.get_address(dp)
-        size = self.get_size(dp)
-        data_type = self.get_datatype(dp)
-        reg_type = self.get_register_type(dp)
-        slave_id = self.slave_id
-        order = self.byte_order
-        return self.client.value_decoder(address, size, data_type, reg_type, slave_id, order)
 
-    def setval(self, fp_name: str, dp_name: str, value: float) -> None:
+    async def getval_block(self, fp_name: str, dp_name: str):
+            dp = find_dp(self.root, fp_name, dp_name)
+            address = self.get_address(dp)
+            size = self.get_size(dp)
+            data_type = self.get_datatype(dp)
+            reg_type = self.get_register_type(dp)
+            slave_id = self.slave_id
+            order = self.byte_order
+            answer = await self.client.mult_value_decoder(address, size, data_type, reg_type, slave_id, order)
+            return answer
+
+
+    async def setval(self, fp_name: str, dp_name: str, value: float) -> None:
         """
         Writes datapoint value.
         :param fp_name: The name of the funcitonal profile in which the datapoint resides.
@@ -139,7 +124,8 @@ class SgrModbusInterface:
         data_type = self.get_datatype(dp)
         slave_id = self.slave_id
         order = self.byte_order
-        self.client.value_encoder(address, value, data_type, slave_id, order)
+        await self.client.value_encoder(address, value, data_type, slave_id, order)
+    
     
     def get_device_profile(self):
         print(f"Brand Name: {self.root.device_profile.brand_name}")
@@ -207,23 +193,38 @@ class SgrModbusInterface:
         :param dp_name: The name of the datapoint
         :returns: The datapoint element found in root, if not, returns None.
         """
-        for fp in self.root.fp_list_element:
-                if fp_name == fp.functional_profile.profile_name:
-                    #Secondly we filter the datpoint name
-                    for dp in fp.dp_list_element:
-                        if dp_name == dp.data_point.datapoint_name:
-                            return dp
-        return None
+        fp = next(filter(lambda x: x.functional_profile.profile_name == fp_name, root.fp_list_element), None)
+        if fp:
+            dp = next(filter(lambda x: x.data_point.datapoint_name == dp_name, fp.dp_list_element), None)
+            if dp:
+                return dp
 
     # TODO a getval for L1, L2 and L3 at the same time
+
+async def test_loop():
+    while True:
+        print('start')
+        interface_file = 'SGr_04_0016_xxxx_ABBMeterV0.2.1.xml'
+        sgr_modbus = SgrModbusInterface(interface_file)
+        await sgr_modbus.client.client.connect()
+        getval = await sgr_modbus.getval('ActiveEnerBalanceAC', 'ActiveImportAC')
+        print(getval)
+        await asyncio.sleep(10)
 
 if __name__ == "__main__":
     starting_time = time.time()
     print('start')
-    interface_file = 'SGr_04_0016_xxxx_ABBMeterV0.2.1.xml'
-    a = SgrModbusInterface(interface_file)
+    try:
+        asyncio.run(test_loop())
+    except KeyboardInterrupt:
+        print("done")
+
+
+
+    """interface_file = 'SGr_04_0016_xxxx_ABBMeterV0.2.1.xml'
+    client = SgrModbusInterface(interface_file)
     #a.setval('ActiveEnerBalanceAC', 'ActiveImportAC', 9000)
-    print(a.root.fp_list_element[0].dp_list_element[0].data_point.datapoint_name)
-    print(a.getval('ActiveEnerBalanceAC', 'ActiveImportAC'))
-    dp = find_dp(a.root, 'ActiveEnerBalanceAC', 'ActiveImportAC')
-    print(a.getval(dp))
+    #print(a.root.fp_list_element[0].dp_list_element[0].data_point.datapoint_name)
+    print(client.getval('ActiveEnerBalanceAC', 'ActiveImportAC'))"""
+    """dp = find_dp(a.root, 'ActiveEnerBalanceAC', 'ActiveImportAC')
+    print(a.getval(dp))"""

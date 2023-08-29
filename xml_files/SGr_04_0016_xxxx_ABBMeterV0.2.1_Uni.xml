@@ -48,7 +48,7 @@
   <sgr:modbusInterfaceDesc>
     <sgr:modbusInterfaceSelection>RTU</sgr:modbusInterfaceSelection>
     <sgr:trspSrvModbusTCPoutOfBox>
-      <sgr:port>"COM7"</sgr:port>
+      <sgr:port>COM5</sgr:port>
       <sgr:address>
         <sgr:ipV4n1>127</sgr:ipV4n1>
         <sgr:ipV4n2>0</sgr:ipV4n2>

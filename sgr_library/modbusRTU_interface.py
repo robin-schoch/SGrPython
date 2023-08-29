@@ -14,7 +14,6 @@ from sgr_library.data_classes.ei_modbus.sgr_modbus_eidevice_frame import SgrModb
 
 
 
-
 def get_port(root) -> str:
     """
     :param root: The root element created with the xsdata parser
@@ -84,7 +83,7 @@ class SgrModbusRtuInterface:
         parser = XmlParser(context=XmlContext())
         self.root = parser.parse(interface_file, SgrModbusDeviceFrame)
         #self.root = parser.parse(interface_file, SgrModbusDeviceDescriptionType)
-        self.port = "COM7" #TODO überlegungen machen wo Port untergebracht wird
+        self.port = get_port(self.root) #TODO überlegungen machen wo Port untergebracht wird
         self.baudrate = get_baudrate(self.root)
         self.parity = get_parity(self.root)
         self.slave_id = get_slave(self.root)

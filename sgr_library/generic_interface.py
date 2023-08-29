@@ -1,121 +1,73 @@
-from xml.dom.minidom import Element
-
-from xsdata.formats.dataclass.context import XmlContext
-from xsdata.formats.dataclass.parsers import XmlParser
-
-from sgr_library.data_classes.ei_modbus import SgrModbusDeviceFrame, SgrModbusDataPointType
 from sgr_library.modbus_interface import SgrModbusInterface
-from sgr_library.restapi_interface import RestapiInterface
-from sgr_library.modbusRTU_interface import SgrModbusRtuInterface
-import os
-import configparser
-import xml.etree.ElementTree as ET
+from sgr_library.restapi_client_async import SgrRestInterface
+
+import asyncio
+from sgr_library.auxiliary_functions import get_protocol,get_modbusInterfaceSelection
+from sgr_library.modbusRTU_interface_async import SgrModbusRtuInterface
 
 
-def get_protocol(xml_file: str) -> str:
-    """
-    Searches for protocol type in xml file
-    :return: 
-    """
-    root = ET.parse(xml_file).getroot()
-    element = root.tag
-    protocol_type = element.split('}')[1]
-    return protocol_type
+class GenericInterface:
 
+    def __new__(cls, xml_file:str, config_file=None):
+        protocol_type = get_protocol(xml_file)
+        modbus_protocol = ['SGrModbusDeviceFrame', 'SGrModbusDeviceDescriptionType']
+        restapi_protocol = ['SGrRESTAPIDeviceDescriptionType', 'SGrRestAPIDeviceFrame']
 
-def get_modbusInterfaceSelection(xml_file: str) -> str:
-    """
-    Searches for selected Modbus Interface in XML file
-    """
-    parser = XmlParser(context=XmlContext())
-    root = parser.parse(xml_file, SgrModbusDeviceFrame)
+        if protocol_type in modbus_protocol:
+            #New
+            modbus_protocol_type = get_modbusInterfaceSelection(xml_file)
+            if modbus_protocol_type == "TCP/IP":
+                obj = object.__new__(SgrModbusInterface)
+                obj.__init__(xml_file)
+            elif modbus_protocol_type == "RTU":
+                obj = object.__new__(SgrModbusRtuInterface)
+                obj.__init__(xml_file)
+            return obj
+        elif protocol_type in restapi_protocol:
+            obj = object.__new__(SgrRestInterface)
+            obj.__init__(xml_file, config_file)
+            return obj
+        return None
 
-    return (root.modbus_interface_desc.modbus_interface_selection.value)
-
-
-class GenericInterface(SgrModbusInterface, RestapiInterface, SgrModbusRtuInterface):
-
-    def __init__(self, xml_file: str, config=None) -> None:
-        """
-        Chooses which interface to use from xml file data.
-        :param xml_file: Name of the xml file to parse in chosen interface
-        """
-        self.protocol_type = get_protocol(xml_file)
-        self.modbus_protocol = ['SGrModbusDeviceFrame', 'SGrModbusDeviceDescriptionType']
-        self.restapi_protocol = ['SGrRESTAPIDeviceDescriptionType']
-        self.interface_type = ""  # The type of the Interface used
-
-        if self.protocol_type in self.modbus_protocol:
-            if get_modbusInterfaceSelection(xml_file) == "RTU":  # Todo if RTU choose modbusRTU_interface?
-                SgrModbusRtuInterface.__init__(self, xml_file)
-                self.interface_type = "RTU"
-            else:
-                SgrModbusInterface.__init__(self,
-                                            xml_file)  # Todo maybe smarter to have a parameter for tcp/rtu? or parse the XML before and get value <sgr:modbusInterfaceSelection> = RTU
-                self.interface_type = "TCP"
-        elif self.protocol_type in self.restapi_protocol:
-            RestapiInterface.__init__(self, xml_file, config_file)
-            self.interface_type = "REST"
-
-    def getval(self, *parameter) -> tuple:
-        if self.protocol_type in self.modbus_protocol:
-            return (SgrModbusInterface.getval(self, *parameter))
-        elif self.protocol_type in self.restapi_protocol:
-            return (RestapiInterface.getval(self, *parameter))
-
-    def get_multiplicator(self, dp: SgrModbusDataPointType) -> int:
-        match self.interface_type:
-            case "RTU":
-                return SgrModbusRtuInterface.get_multiplicator(self, dp)
-            case "TCP":
-                return SgrModbusInterface.get_multiplicator(self, dp)
-            case "REST:":
-                raise NotImplementedError
-
-    def get_power_10(self, dp: SgrModbusDataPointType)->int:
-        match self.interface_type:
-            case "RTU":
-                return SgrModbusRtuInterface.get_power_10(self, dp)
-            case "TCP":
-                return SgrModbusInterface.get_power_10(self, dp)
-            case "REST:":
-                raise NotImplementedError
-
-    def get_unit(self, dp: SgrModbusDataPointType):
-        match self.interface_type:
-            case "RTU":
-                return SgrModbusRtuInterface.get_unit(self, dp)
-            case "TCP":
-                return SgrModbusInterface.get_unit(self, dp)
-            case "REST:":
-                raise NotImplementedError
-
-    def get_pymodbus_client(self):
-        match self.interface_type:
-            case "RTU":
-                return SgrModbusRtuInterface.get_pymodbus_client(self)
-            case "TCP":
-                raise NotImplementedError
-            case "REST:":
-                raise NotImplementedError
-
+        
 if __name__ == "__main__":
-    energy_monitor_config_file_path_default = os.path.join(
-        os.path.dirname(os.path.realpath(__file__)),
-        'config_CLEMAPEnMon_ressource_default.ini'
-    )
-    config_file = configparser.ConfigParser()
-    config_file.read(energy_monitor_config_file_path_default)
 
-    interface_file = 'SGr_04_0018_CLEMAP_EIcloudEnergyMonitorV0.2.1.xml'
-    sgr_component = GenericInterface(interface_file, config_file)
-    value = sgr_component.getval('ActivePowerAC', 'ActivePowerACtot')
-    print(value)
+    async def test_loop():
 
-    interface_file2 = 'SGr_HeatPump_Test.xml'
-    sgr_component2 = GenericInterface(interface_file2)
-    dp = sgr_component2.find_dp('HeatPumpBase', 'HPOpState')
-    sgr_component2.get_device_profile()
+        print('start loop')
+        # We instanciate one interface object with a modbus xml.
+        interface_file_modbus = 'SGr_04_0016_xxxx_ABBMeterV0.2.1.xml'
+        modbus_component = GenericInterface(interface_file_modbus)
 
-    value2 = sgr_component2.getval('HeatPumpBase', 'HPOpState')
-    print(value2)
+        #TODO fix this ugly client.client.client.
+        await modbus_component.client.client.connect()
+
+        # We instanciate a second interface object with a restapi xml.
+        config_file_rest = 'config_CLEMAPEnMon_ressource_default.ini'
+        #interface_file_rest = 'SGr_04_0018_CLEMAP_EIcloudEnergyMonitorV0.2.1.xml'
+        interface_file_rest = 'SGr_EI_CLEMAPCloudV1.0.0.xml'
+        restapi_component = GenericInterface(interface_file_rest, config_file_rest)
+        await restapi_component.authenticate()
+
+        # We create a loop where we request a datapoint with a getval of our restapi 
+        # component and a datapoint with a getval of our modbus component.
+        while True:
+            #getval = await modbus_component.getval('ActiveEnerBalanceAC', 'ActiveImportAC')
+            #print(getval)
+            value = await restapi_component.getval('ActivePowerAC', 'ActivePowerACtot')
+            print(value)
+
+            await asyncio.sleep(10)
+
+            #you could do the same funciton with a asyncio gather functions if you 
+            #want to get the variables "concurrently".
+
+    try:
+        asyncio.run(test_loop())
+    except KeyboardInterrupt:
+
+        # Here we have to close all the sessions...
+        # We have to think if we want to open a connection and close it for
+        # every getval, or we just leave the user do this.
+        print("done")
+

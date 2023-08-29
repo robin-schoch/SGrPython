@@ -1,4 +1,5 @@
 *.egg-info
 *.ini
-venv
+.idea
+data_classes
 __pycache__

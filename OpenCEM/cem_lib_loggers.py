@@ -1,3 +1,5 @@
+# Generative AI was used for some Code
+
 """
 Author: Sergio Ferreira
 V1. 5.11.2022, initial
@@ -64,7 +66,6 @@ def show_logger_in_console(Log_level: int):
     param: level: CRITICAL = 50, ERROR = 40, WARNING = 30,INFO = 20, DEBUG = 10
     """
     logger = logging.getLogger()
-    root_level = logger.level
 
     streaming_handler = logging.StreamHandler()
     streaming_handler.setLevel(Log_level)
@@ -133,7 +134,7 @@ def create_statistics_logger() -> logging.Logger:
     path = os.path.join(os.getcwd(), "_logFiles", "Statistics.log")
     statistics_header = "timestamp;actuator/sensor-type;name;bus-type;is_smartgridready;id;value_name/channel;value;unit;last_updated"
 
-    file_handler = MyTimedRotatingFileHandler(path, when='midnight',interval=1, backupCount=0, header=statistics_header)
+    file_handler = MyTimedRotatingFileHandler(path, when='midnight', interval=1, backupCount=0, header=statistics_header)
     file_handler.setLevel(logging.INFO)
 
     formatter = logging.Formatter('%(asctime)s;%(message)s')
@@ -143,6 +144,32 @@ def create_statistics_logger() -> logging.Logger:
 
     return stats_logger
 
+def create_statistics_logger_devices() -> logging.Logger:
+    """
+    This methode creates the statistic logger to log the data from the devices.
+
+    The logs ar in this format:
+    timestamp;actuator/sensor-type;name;bus-type;is_smartgridready;id;value_name/channel;value;unit;last_updated
+    :returns: the OpenCEM statistic logger
+    """
+
+    device_logger = logging.getLogger("device_logger")
+    device_logger.setLevel(logging.INFO)
+    device_logger.propagate = False  # stats won't be showing in root logger
+
+    path = os.path.join(os.getcwd(), "_logFiles", "DeviceLog.log")
+    device_values_header = "timestamp;OpenCEM-id;name;connected;power;energy_import;energy_export;room_temp;storage_temp;mode;channel_values;consumption_price;production_price;scaled_output"
+
+    # rollback once a day
+    file_handler = MyTimedRotatingFileHandler(path, when='midnight', interval=1, backupCount=0, header=device_values_header)
+    file_handler.setLevel(logging.INFO)
+
+    formatter = logging.Formatter('%(asctime)s;%(message)s', datefmt="%d.%m.%y %H:%M:%S")
+    file_handler.setFormatter(formatter)
+
+    device_logger.addHandler(file_handler)
+
+    return device_logger
 
 
 

@@ -1,0 +1,204 @@
+installationName: David Garage
+creationTimestamp: 2023-08-10 14:25:36.423000+00:00
+version: 1
+communicationChannels:
+- id: e12744af-2bb8-4355-823d-d9c99b28e753
+  name: Ladebox TCP
+  type: MODBUS_TCP
+  extra:
+    address: 192.168.0.18
+    port: 502
+- id: 532987cd-8b64-436c-8e17-fad9c962f0a5
+  name: Modbus RTU
+  type: MODBUS_RTU
+  extra:
+    baudrate: 19200
+    parity: EVEN
+    port: /dev/ttyUSB0
+- id: abf22988-79e8-4e25-8c61-2c5953390ec1
+  name: Shelly Local
+  type: SHELLY_LOCAL
+  extra: {}
+- id: 325ddbef-9c63-4fe5-874c-8e7aefc4a88a
+  name: Shelly Cloud Kommunikationskanal
+  type: SHELLY_CLOUD
+  extra:
+    authKey: MTUyNjU5dWlk6D393AB193944CE2B1D84E0B573EAB1271DA6F2AF2BC54F67779F5BC27C31E90AD7C7075E0F813D8
+    serverAddress: https://shelly-54-eu.shelly.cloud/
+sensors:
+- id: 04102076-205c-46d2-bcf0-4811e42a94ee
+  name: Zaehler RevPi + Relais
+  manufacturer: Shelly
+  model: 3EM
+  type: POWER_SENSOR
+  isSmartGridready: false
+  smartGridreadyFileId: null
+  communicationId: abf22988-79e8-4e25-8c61-2c5953390ec1
+  isLogging: true
+  extra:
+    address: 192.168.0.26
+    hasEnergyExport: true
+    maxPower: 10
+- id: 89e38f04-4871-4ae4-adb7-1dd6e53cb7f9
+  name: Zaehler Verbrauch Total
+  manufacturer: null
+  model: null
+  type: POWER_SENSOR
+  isSmartGridready: true
+  smartGridreadyFileId: 1bd13932-1c88-4033-81a0-48163a1ea8d6
+  communicationId: 532987cd-8b64-436c-8e17-fad9c962f0a5
+  isLogging: true
+  extra:
+    address: '1'
+    maxPower: 10
+    hasEnergyExport: false
+- id: 578a38a4-0fac-4f60-b9c0-e3276bb70e11
+  name: Zaehler Produktion
+  manufacturer: null
+  model: null
+  type: POWER_SENSOR
+  isSmartGridready: true
+  smartGridreadyFileId: 1bd13932-1c88-4033-81a0-48163a1ea8d6
+  communicationId: 532987cd-8b64-436c-8e17-fad9c962f0a5
+  isLogging: true
+  extra:
+    address: '5'
+    maxPower: 10
+    hasEnergyExport: false
+- id: 74e662c4-2b4a-490c-afa0-dfca3c912c46
+  name: Zaehler Eletroheizung
+  manufacturer: ABB
+  model: ABB B23 112-100
+  type: POWER_SENSOR
+  isSmartGridready: false
+  smartGridreadyFileId: null
+  communicationId: 532987cd-8b64-436c-8e17-fad9c962f0a5
+  isLogging: true
+  extra:
+    address: '12'
+    maxPower: 10
+    hasEnergyExport: false
+- id: d87c8d0f-4a56-414d-8d1f-b8fdc4815eae
+  name: Temperatursensor Garage
+  manufacturer: Shelly
+  model: HT
+  type: TEMPERATURE_SENSOR_ROOM
+  isSmartGridready: false
+  smartGridreadyFileId: null
+  communicationId: 325ddbef-9c63-4fe5-874c-8e7aefc4a88a
+  isLogging: true
+  extra:
+    address: 701f93
+    maxTemp: 50
+    minTemp: -10
+- id: 65ae6a67-1a68-4974-b217-74d425556430
+  name: Zaehler Batterie
+  manufacturer: null
+  model: null
+  type: POWER_SENSOR
+  isSmartGridready: true
+  smartGridreadyFileId: 1bd13932-1c88-4033-81a0-48163a1ea8d6
+  communicationId: 532987cd-8b64-436c-8e17-fad9c962f0a5
+  isLogging: true
+  extra:
+    address: '3'
+    hasEnergyExport: true
+    maxPower: 10
+actuators:
+- id: 1fecebd0-e482-48a0-84e0-00dc2997d1df
+  name: Relais 2PM (Elektroheizung)
+  manufacturer: Shelly
+  model: PRO_2PM
+  type: RELAIS
+  isSmartGridready: false
+  smartGridreadyFileId: null
+  communicationId: abf22988-79e8-4e25-8c61-2c5953390ec1
+  isLogging: true
+  extra:
+    address: 192.168.0.210
+    nChannels: 2
+devices:
+- id: d6ae5f18-3360-457d-897e-ea08f01e166c
+  name: "\xDCbriger Verbrauch"
+  manufacturer: null
+  model: null
+  type: REMAINING_CONSUMPTION
+  isSmartGridready: false
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    deviceSetting: CALCULATED
+- id: 832edb56-e87f-49e0-951c-45bc41c91336
+  name: Hausanschluss
+  manufacturer: null
+  model: null
+  type: CENTRAL_POWER_METER
+  isSmartGridready: false
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    maxPower: 10
+    idPowerSensorTotalConsumption: 89e38f04-4871-4ae4-adb7-1dd6e53cb7f9
+    idPowerSensorProduction: 578a38a4-0fac-4f60-b9c0-e3276bb70e11
+    isBidirectional: false
+    isSimulated: false
+- id: dd0862e7-1f85-471d-9dba-a6310b1fd0f3
+  name: PV-Anlage Garage
+  manufacturer: null
+  model: null
+  type: PV_PLANT
+  isSmartGridready: false
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    maxPower: 10
+    idPowerSensor: 578a38a4-0fac-4f60-b9c0-e3276bb70e11
+    isSimulated: false
+- id: 0c4cab7e-6bbf-4f1e-a2fc-73c7e9716961
+  name: Ladestation
+  manufacturer: null
+  model: null
+  type: EV_CHARGER
+  isSmartGridready: false
+  smartGridreadyFileId: null
+  communicationId: e12744af-2bb8-4355-823d-d9c99b28e753
+  isLogging: true
+  extra:
+    address: '255'
+    nominalPower: 6
+    phases: SINGLE_PHASE
+    idController: 2ba33ddd-de5d-4da8-85bc-ed8ccb510d90
+- id: 990a98a1-6c5f-4a02-b85a-002549f82a49
+  name: Elektroheizung
+  manufacturer: null
+  model: null
+  type: POWER_TO_HEAT
+  isSmartGridready: false
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    nominalPower: 1
+    idTempSensorRoom: d87c8d0f-4a56-414d-8d1f-b8fdc4815eae
+    idRelais: 1fecebd0-e482-48a0-84e0-00dc2997d1df
+    idPowerSensor: 74e662c4-2b4a-490c-afa0-dfca3c912c46
+    idController: 30b4b127-4a23-427c-ae2e-9759bf2f580a
+    channels:
+    - '0'
+    isSimulated: false
+controllers:
+- id: 30b4b127-4a23-427c-ae2e-9759bf2f580a
+  type: PRICE_CONTROLLER
+  extra:
+    maxState: 25
+    minState: 20
+    solarTarif: 6
+    gridTarif: 15
+- id: 2ba33ddd-de5d-4da8-85bc-ed8ccb510d90
+  type: DYNAMIC_EXCESS_CONTROLLER
+  extra:
+    limitMax: 4
+    limitMin: 1.5

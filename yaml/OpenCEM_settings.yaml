@@ -1,0 +1,20 @@
+OpenCEM_speed_up: 288 # put 1 here if system is not simulated
+# time for the loops in seconds
+fast_loop_time: 300
+slow_loop_time: 600
+simulation_loop_time: 75
+duration: 0 # in seconds (0 means will run forever)
+
+# settings for logging
+log_events: true
+log_stats: true
+console_logging_level: 20
+
+# credentials for loading configuration
+installation: ""
+password: ""
+token: ""
+backend_url: ""
+
+# keep the path empty if you download the yaml from the server
+path_OpenCEM_config: "yaml/reale_Installation_simuliert.yaml"

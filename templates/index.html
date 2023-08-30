@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenCEM</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        function fetchData() {
+            $.ajax({
+                url: '/latest_data',
+                method: 'GET',
+                dataType: 'json',
+                success: function (data) {
+                    // Update the page with the latest data
+                    updateDataContainer(data);
+                },
+                error: function () {
+                    console.log('Failed to fetch data.');
+                }
+            });
+        }
+
+        function updateDataContainer(data) {
+            // Clear the data container
+            $('#data-container').empty();
+
+            // Create a timestamp element
+            var timestamp = $('<p>').text('Timestamp: ' + data.timestamp);
+            $('#data-container').append(timestamp, '<hr>');
+
+            // Create device elements
+            var devices = data.devices_list;
+            for (var i = 0; i < devices.length; i++) {
+                var device = devices[i];
+                var deviceName = $('<p>').text('Device Name: ' + device.name);
+                var powerValue = $('<p>').text('Power Value: ' + device.power);
+                var deviceType = $('<p>').text('Type: ' + device.type);
+                var deviceStatus = $('<p>').text('Status: ' + device.status);
+                var evState = device.ev_state ? $('<p>').text('EV State: ' + device.ev_state) : null;
+                var roomTemperature = device.room_temperature ? $('<p>').text('Room Temperature: ' + device.room_temperature) : null;
+                var storageTemperature = device.storage_temperature ? $('<p>').text('Storage Temperature: ' + device.storage_temperature) : null;
+                $('#data-container').append(deviceName,deviceType,deviceStatus,powerValue,evState,roomTemperature, storageTemperature, '<hr>');
+            }
+        }
+
+        // Fetch data every 5 seconds
+        setInterval(fetchData, 5000);
+
+        // Attach a click event listener to the restart button
+        $(document).ready(function() {
+            $('#ShutdownButton').on('click', function () {
+                $.ajax({
+                    url: '/shutdown',
+                    method: 'POST',
+                    success: function () {
+                        console.log('Restart request sent.');
+                    },
+                    error: function () {
+                        console.error('Failed to send restart request.');
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<h1>OpenCEM</h1>
+<div id="data-container"></div>
+<button id="ShutdownButton">Stop OpenCEM</button>
+</body>
+</html>

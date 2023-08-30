@@ -1,0 +1,53 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>26</x><y>10</y><w>620</w><h>40</h></coordinates><panel_attributes>halign=left
+Modbus Device Simulator Documentation Project OpenCEM
+doc_modbus_device_simulator.uxf, Modbus_Device_Simulator.py, V0.2, 10.06.2022, D. Zogg, Smart Energy Engineering GmbH</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>26</x><y>180</y><w>230</w><h>110</h></coordinates><panel_attributes>HeatPump_Simulator
+--
+heatpump_init()
+heatpump_sim_step(..)
+--
+runs simple heat pump model
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>26</x><y>320</y><w>230</w><h>140</h></coordinates><panel_attributes>Thread(updating_writer)
+--
+functional profile parsing
+context.getValue(..)
+call heatpump_sim_step()
+context.setValue(..)
+--
+updates modbus register table (context)
+from simulated variables
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>26</x><y>490</y><w>230</w><h>170</h></coordinates><panel_attributes>run_updating_server()
+--
+XML_parser = Parser(XML_file)
+blocks = ModbusSparseDataBlock(modbus_regs)
+context = ModbusServerContext(blocks)
+Thread(updating_writer).start
+StartTcpServer(context, ...)
+--
+initializes modbus register table (context)
+according to XML file, starts modbus 
+server and updating thread
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>116</x><y>450</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>Relation</id><coordinates><x>126</x><y>280</y><w>30</w><h>60</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;10;40</additional_attributes></element><element><id>UMLClass</id><coordinates><x>346</x><y>300</y><w>210</w><h>230</h></coordinates><panel_attributes>modbus register table (context)
+--
+digital input (di) block
+
+
+--
+coil (co) block
+
+
+--
+holding register (hr) block
+
+
+--
+input register (ir) block
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>246</x><y>360</y><w>120</w><h>30</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;100;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>616</x><y>350</y><w>230</w><h>130</h></coordinates><panel_attributes>Thread(ModbusTcpServer)
+--
+...
+
+
+--
+updates modbus register table (context)
+from bus data
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>246</x><y>390</y><w>120</w><h>30</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>100;10;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>546</x><y>370</y><w>90</w><h>30</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;70;10</additional_attributes></element><element><id>Relation</id><coordinates><x>546</x><y>400</y><w>90</w><h>30</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>70;10;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>626</x><y>590</y><w>210</w><h>40</h></coordinates><panel_attributes>Modbus data transfer from/to client</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>656</x><y>470</y><w>30</w><h>140</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;10;10;120</additional_attributes></element><element><id>Relation</id><coordinates><x>766</x><y>470</y><w>30</w><h>140</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;120;10;10</additional_attributes></element></diagram>

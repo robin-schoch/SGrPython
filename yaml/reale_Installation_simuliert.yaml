@@ -1,0 +1,78 @@
+# simulated test installation
+installationName: David Garage
+creationTimestamp: 2023-08-10 14:25:36.423000+00:00
+version: 1
+
+devices:
+- id: d6ae5f18-3360-457d-897e-ea08f01e166c
+  name: "\xDCbriger Verbrauch"
+  manufacturer: null
+  model: null
+  type: REMAINING_CONSUMPTION
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    deviceSetting: SIMULATED
+    minPower: 0.0
+    maxPower: 0.1
+- id: 832edb56-e87f-49e0-951c-45bc41c91336
+  name: Hausanschluss
+  manufacturer: null
+  model: null
+  type: CENTRAL_POWER_METER
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    maxPower: 10
+    isSimulated: true
+- id: dd0862e7-1f85-471d-9dba-a6310b1fd0f3
+  name: PV-Anlage Garage
+  manufacturer: null
+  model: null
+  type: PV_PLANT
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    maxPower: 3
+    isSimulated: true
+- id: 0c4cab7e-6bbf-4f1e-a2fc-73c7e9716961
+  name: Ladestation
+  manufacturer: null
+  model: null
+  type: EV_CHARGER
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    isSimulated: true
+    idController: 2ba33ddd-de5d-4da8-85bc-ed8ccb510d90
+    phases: TRIPPLE_PHASES
+    nominalPower: 2
+- id: 990a98a1-6c5f-4a02-b85a-002549f82a49
+  name: Elektroheizung
+  manufacturer: null
+  model: null
+  type: POWER_TO_HEAT
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    nominalPower: 1.0
+    isSimulated: true
+    idController: 30b4b127-4a23-427c-ae2e-9759bf2f580a
+controllers:
+- id: 30b4b127-4a23-427c-ae2e-9759bf2f580a
+  type: PRICE_CONTROLLER
+  extra:
+    maxState: 25
+    minState: 20
+    solarTarif: 6
+    gridTarif: 15
+- id: 2ba33ddd-de5d-4da8-85bc-ed8ccb510d90
+  type: DYNAMIC_EXCESS_CONTROLLER
+  extra:
+    limitMax: 4
+    limitMin: 1.5

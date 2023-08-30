@@ -1,0 +1,176 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>120</x><y>60</y><w>270</w><h>190</h></coordinates><panel_attributes>bg=blue
+*smartgridready_component*
+--
+interface_file: XML_file
+*Parser: Parser  # generic_interface*
+*EI: EI4Modbus, EI4RestAPI, ...*
+...
+--
+__init__(bus_type, XML_file)
+value=read_value(functional_profile, data_point)
+write_value(functional_profile, data_point, value)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>120</x><y>270</y><w>210</w><h>190</h></coordinates><panel_attributes>bg=red
+*sensor*
+{abstract}
+--
+name: string
+manufacturer: string
+sensor_type: string
+bus_type: string
+id: string
+is_smartgridready: boolean
+--
+__init__(name, manufacturer, ...)
+value=read()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>530</y><w>210</w><h>130</h></coordinates><panel_attributes>bg=red
+*power_sensor*
+--
+value: float
+has_energy: boolean
+energy_value: float
+--
+__init__(name, manufacturer, ...)
+value=read()
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>230</x><y>530</y><w>210</w><h>130</h></coordinates><panel_attributes>bg=red
+*temperature_sensor*
+--
+value: float
+--
+__init__(name, manufacturer, ...)
+value=read()
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>470</x><y>270</y><w>210</w><h>190</h></coordinates><panel_attributes>bg=green
+*actuator*
+{abstract}
+--
+name: string
+manufacturer: string
+actuator_type: string
+bus_type: string
+id: string
+is_smartgridready: boolean
+--
+__init__(name, manufacturer, ...)
+write(value)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>470</x><y>530</y><w>210</w><h>130</h></coordinates><panel_attributes>bg=green
+*relais_actuator*
+{abstract}
+--
+value: boolean
+--
+__init__(name, manufacturer, ...)
+write(value)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1050</x><y>90</y><w>280</w><h>370</h></coordinates><panel_attributes>bg=yellow
+*device*
+{abstract}
+--
+name: string
+device_type: string
+prosumer_type: string
+manufacturer: string
+*actuator: actuator*
+*power_sensor: power_sensor*
+is_smartgridready: boolean
+*smartgridready: smartgridready_component*
+aux_sensors: list
+simulated: boolean
+state: float
+*controller: controllers.controller*
+...
+--
+__init__(name, manufacturer, ...)
+add_power_sensor(name, manufacturer, ...)
+add_aux_sensor(name, manufacturer, ...)
+value=read_power_sensor()
+values=read_aux_sensors()
+write_actuator()
+add_controller(name)
+output=calc_controller(...)
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>730</x><y>530</y><w>220</w><h>130</h></coordinates><panel_attributes>bg=yellow
+*pv_plant*
+--
+max_power: float
+--
+__init__(name, manufacturer, ...)
+value=read_power_sensor()
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>730</x><y>680</y><w>280</w><h>130</h></coordinates><panel_attributes>bg=yellow
+*central_power_meter*
+--
+max_power: float
+--
+__init__(name, manufacturer, ...)
+value=read_power_sensor()
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1050</x><y>530</y><w>280</w><h>250</h></coordinates><panel_attributes>bg=yellow
+*heat_pump*
+--
+norm_power: float
+room_temperature: float
+storage_temperature: float
+*room_temperature_sensor: temperature_sensor*
+*storage_temperature_sensor: temperature_sensor*
+*controller: controllers.price_controller*
+--
+__init__(name, manufacturer, ...)
+add_room_temperature_sensor(name, manufacturer, ...)
+add_storage_temperature_sensor(name, manufacturer, ...)
+values=read_aux_sensors()
+add_controller(name)
+set_control_params(...)
+output = calc_controller(...)
+
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1370</x><y>530</y><w>280</w><h>250</h></coordinates><panel_attributes>bg=yellow
+*ev_charger*
+--
+min_power: float
+max_power: float
+norm_power: float
+*controller: controllers.excess_controller*
+--
+__init__(name, manufacturer, ...)
+add_controller(name)
+set_limit(limit)
+output = calc_controller(...)
+
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1720</x><y>530</y><w>240</w><h>250</h></coordinates><panel_attributes>bg=yellow
+*power_to_heat*
+--
+min_power: float
+max_power: float
+norm_power: float
+*controller: controllers.excess_controller*
+--
+__init__(name, manufacturer, ...)
+add_controller(name)
+set_limit(limit)
+output = calc_controller(...)
+
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1680</x><y>790</y><w>280</w><h>250</h></coordinates><panel_attributes>bg=yellow
+*household_appliance*
+--
+min_power: float
+max_power: float
+norm_power: float
+*controller: controllers.covarage_controller*
+--
+__init__(name, manufacturer, ...)
+add_controller(name)
+set_limit(limit)
+output = calc_controller(...)
+
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>50</x><y>450</y><w>140</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>120;10;120;40;10;40;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>190</x><y>450</y><w>160</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;50;140;50;140;80</additional_attributes></element><element><id>Relation</id><coordinates><x>560</x><y>450</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>860</x><y>450</y><w>270</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>250;10;250;40;10;40;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>960</x><y>450</y><w>190</w><h>250</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>170;10;170;60;10;60;10;230</additional_attributes></element><element><id>Relation</id><coordinates><x>1170</x><y>450</y><w>30</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;80</additional_attributes></element><element><id>Relation</id><coordinates><x>1210</x><y>450</y><w>320</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;50;300;50;300;80</additional_attributes></element><element><id>Relation</id><coordinates><x>1250</x><y>450</y><w>470</w><h>360</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;40;450;40;450;340</additional_attributes></element><element><id>Relation</id><coordinates><x>1280</x><y>450</y><w>590</w><h>100</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;30;570;30;570;80</additional_attributes></element><element><id>UMLClass</id><coordinates><x>10</x><y>0</y><w>680</w><h>40</h></coordinates><panel_attributes>halign=left
+Documentation of Components Library, Project OpenCEM
+doc_evm_lib_components.uxf, evm_lib_components.py, V0.2, 09.06.2022, D. Zogg, Smart Energy Engineering GmbH</panel_attributes><additional_attributes></additional_attributes></element></diagram>

@@ -1,0 +1,189 @@
+# yaml of real installation
+installationName: Testaufbau David
+creationTimestamp: 2023-07-20T15:40:32.841Z
+version: 2
+communicationChannels:
+- id: 7de29627-78c8-4702-a1b3-a89ca9ad15ce
+  name: Modbus RTU
+  type: MODBUS_RTU
+  extra:
+    baudrate: 19200
+    port: /dev/ttyUSB0
+    parity: EVEN
+- id: defdec2b-e720-477b-b1c4-f5f884f31ffa
+  name: Modbus TCP
+  type: MODBUS_TCP
+  extra:
+    address: 192.168.0.18
+    port: 502
+- id: bbf5b795-11af-4d0e-9386-eeb28a38a776
+  name: Shelly Cloud
+  type: SHELLY_CLOUD
+  extra:
+    authKey: MTUyNjU5dWlk6D393AB193944CE2B1D84E0B573EAB1271DA6F2AF2BC54F67779F5BC27C31E90AD7C7075E0F813D8
+    serverAddress: https://shelly-54-eu.shelly.cloud/
+- id: 4a8c0042-ced3-40f3-9527-895dafa09055
+  name: Shelly Local
+  type: SHELLY_LOCAL
+  extra: null
+sensors:
+- id: 45e8e22d-7586-43b7-88f9-c5af55a625e2
+  name: Zaehler Produktion
+  manufacturer: ABB
+  model: ABB B23 112-100
+  type: POWER_SENSOR
+  smartGridreadyFileId: "xml_files/SGr_04_0016_xxxx_ABBMeterV0.2.1_Sergio.xml"  # wird noch angepasst
+  communicationId: 7de29627-78c8-4702-a1b3-a89ca9ad15ce
+  isLogging: true
+  extra:
+    address: '5'
+    hasEnergyExport: false
+    maxPower: 10
+- id: aa2c4f9a-54e8-4959-acca-9ad626f7831e
+  name: Zaehler Verbrauch Total
+  manufacturer: ABB
+  model: ABB B23 112-100
+  type: POWER_SENSOR
+  smartGridreadyFileId: "xml_files/SGr_04_0016_xxxx_ABBMeterV0.2.1_Sergio.xml"
+  communicationId: 7de29627-78c8-4702-a1b3-a89ca9ad15ce
+  isLogging: true
+  extra:
+    address: '1'
+    hasEnergyExport: false
+    maxPower: 10
+- id: 597f17a6-4023-4048-aa63-4d7933b047f8
+  name: Zaehler Batterie
+  manufacturer: ABB
+  model: ABB B23 312-100
+  type: POWER_SENSOR
+  smartGridreadyFileId: "xml_files/SGr_04_0016_xxxx_ABBMeterV0.2.1_Sergio.xml"
+  communicationId: 7de29627-78c8-4702-a1b3-a89ca9ad15ce
+  isLogging: true
+  extra:
+    address: '3'
+    hasEnergyExport: true
+    maxPower: 10
+- id: fa4b6156-1707-4c0c-bd30-381b6100c5cd
+  name: Zaehler Eletroheizung
+  manufacturer: ABB
+  model: ABB B23 112-100  # identification over model name
+  type: POWER_SENSOR
+  smartGridreadyFileId: null
+  communicationId: 7de29627-78c8-4702-a1b3-a89ca9ad15ce
+  isLogging: true
+  extra:
+    address: '12'
+    hasEnergyExport: false
+    maxPower: 10
+- id: b11b8a85-bb44-4f21-ac7c-84a89adf37c7
+  name: Zaehler RevPi + Relais
+  manufacturer: Shelly
+  model: 3EM
+  type: POWER_SENSOR
+  smartGridreadyFileId: null
+  communicationId: 4a8c0042-ced3-40f3-9527-895dafa09055
+  isLogging: true
+  extra:
+    address: 192.168.0.26
+    hasEnergyExport: true
+    maxPower: 10
+- id: 346aeed2-cfae-4409-bf5c-01b856648690
+  name: Temperatursensor Garage
+  manufacturer: Shelly
+  model: HT
+  type: TEMPERATURE_SENSOR_ROOM
+  smartGridreadyFileId: null
+  communicationId: bbf5b795-11af-4d0e-9386-eeb28a38a776
+  isLogging: true
+  extra:
+    address: 701f93
+    maxTemp: 50
+    minTemp: -10
+actuators:
+- id: d97045f7-12c5-4872-95ae-96e7d2f573e8
+  name: Relais 2PM (Elektroheizung)
+  manufacturer: Shelly
+  model: PRO_2PM
+  type: RELAIS
+  smartGridreadyFileId: null
+  communicationId: 4a8c0042-ced3-40f3-9527-895dafa09055
+  isLogging: true
+  extra:
+    address: 192.168.0.210
+    nChannels: 2
+devices:
+- id: 09a38cda-c96d-4e98-9a64-94923e3e1f89
+  name: PV-Anlage Garage
+  manufacturer: Musterfabrik
+  model: PV Mustermodel
+  type: PV_PLANT
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    isSimulated: false
+    maxPower: 10
+    idPowerSensor: 45e8e22d-7586-43b7-88f9-c5af55a625e2
+- id: 02f75951-ad0e-44b8-b534-ea056e62b2a1
+  name: Hausanschluss
+  manufacturer: null
+  model: null
+  type: CENTRAL_POWER_METER
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    maxPower: 10
+    isSimulated: false
+    isBidirectional: false
+    idPowerSensorTotalConsumption: aa2c4f9a-54e8-4959-acca-9ad626f7831e
+    idPowerSensorProduction: 45e8e22d-7586-43b7-88f9-c5af55a625e2
+- id: b304a40a-f53a-4d7f-b001-91eaf26418b8
+  name: Ladestation
+  manufacturer: Musterfabrik
+  model: WALLBE_ECO_S
+  type: EV_CHARGER
+  smartGridreadyFileId: null
+  communicationId: defdec2b-e720-477b-b1c4-f5f884f31ffa
+  isLogging: true
+  extra:
+    nominalPower: 6
+    isSimulated: false
+    idController: aed28291-970c-4f3c-9692-08cb5b941811
+    address: "255"
+    phases: "SINGLE_PHASE"
+- id: b079fc7f-a1f4-440e-aceb-d3fd590e8cf7
+  name: Elektroheizung
+  manufacturer: Musterfabrik
+  model: null
+  type: POWER_TO_HEAT
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    nominalPower: 1
+    isSimulated: false
+    idTempSensorRoom: 346aeed2-cfae-4409-bf5c-01b856648690
+    idPowerSensor: fa4b6156-1707-4c0c-bd30-381b6100c5cd
+    idController: d8ed7d0f-0fb0-41cd-aebe-777f4145dba1
+    idRelais: d97045f7-12c5-4872-95ae-96e7d2f573e8
+    channels:
+    - 0
+- id: d8310773-9297-446d-b1eb-3c2f63268er0
+  type: REMAINING_CONSUMPTION
+  isLogging: true
+  extra:
+    deviceSetting: CALCULATED
+controllers:
+- id: d8ed7d0f-0fb0-41cd-aebe-777f4145dba1
+  type: PRICE_CONTROLLER
+  extra:
+    gridTarif: 14
+    solarTarif: 6
+    minState: 20
+    maxState: 25
+- id: aed28291-970c-4f3c-9692-08cb5b941811
+  type: DYNAMIC_EXCESS_CONTROLLER
+  extra:
+    limitMax: 4
+    limitMin: 1.5

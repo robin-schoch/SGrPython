@@ -1,0 +1,30 @@
+# This template shows all the available controllers for OpenCEM
+
+controllers:
+- id: 58c76ef0-1d50-41c1-a4e7-e8d78261a608
+  type: EXCESS_CONTROLLER
+  extra:
+    limit: 2  # excess limit
+- id: 3d0fc92c-89ec-40a8-b5ea-985bac8927f8
+  type: STEPWISE_EXCESS_CONTROLLER
+  extra:
+    limits: # the excess limits for the different modes
+    - 1
+    - 2.3
+    - 5
+- id: d8ed7d0f-0fb0-41cd-aebe-777f4145dba1
+  type: COVERAGE_CONTROLLER
+  extra:
+    limit: 1.3
+- id: aed28291-970c-4f3c-9692-08cb5b941811
+  type: DYNAMIC_EXCESS_CONTROLLER
+  extra:
+    limitMax: 8 # controller output will follow excess between limitMax and limitMin
+    limitMin: 4
+- id: 08cdf5f8-94ae-48fe-8ce6-53d01e545c72
+  type: PRICE_CONTROLLER
+  extra:
+    gridTarif: 14 # in rp/kWh
+    solarTarif: 6 # in rp/kWh
+    minState: 19  # min. temperature that is allowed in °C
+    maxState: 23  # max. temperature

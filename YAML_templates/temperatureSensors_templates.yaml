@@ -1,0 +1,29 @@
+# This template is for the different temperature sensors
+
+# Shelly H&T as room temperature sensor
+- id: 346aeed2-cfae-4409-bf5c-01b856648690
+  name: Wohnzimmer Temperatursensor
+  manufacturer: Shelly
+  model: HT
+  type: TEMPERATURE_SENSOR_ROOM
+  smartGridreadyFileId: null
+  communicationId: bbf5b795-11af-4d0e-9386-eeb28a38a776
+  isLogging: true
+  extra:
+    address: 701f93 # communication only over shelly cloud possible
+    maxTemp: 50
+    minTemp: -10
+
+# Shelly TRV as room temperature sensor
+- id: 346aeed2-cfae-4409-bf5c-01b856648690
+  name: Wohnzimmer Temperatursensor
+  manufacturer: Shelly
+  model: TRV
+  type: TEMPERATURE_SENSOR_ROOM
+  smartGridreadyFileId: null
+  communicationId: bbf5b795-11af-4d0e-9386-eeb28a38a776
+  isLogging: true
+  extra:
+    address: 192.168.1.117 # communication possible with shelly cloud device id or local ip address
+    maxTemp: 50
+    minTemp: -10

@@ -1,0 +1,61 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><element><id>UMLClass</id><coordinates><x>70</x><y>90</y><w>300</w><h>480</h></coordinates><panel_attributes>bg=blue
+*Open CEM SmartGridReady*
+--
+Configurable devices:
+- photovoltaic plants
+- heat pumps
+- electric vehicle chargers
+- power-to-heat appliances
+- household appliances
+- etc.
+--
+Configurable actuators and sensors:
+- relais actuators
+- bus actuators
+- power sensors
+- temperature sensors
+- etc.
+--
+Configurable controllers:
+- pv excess controller
+- pv coverage controller
+- adaptive controller
+- real time price controller
+--
+External interfaces:
+- functional profiles
+- data points
+- etc.
+for existing devices on market
+--
+Configurable hardware drivers:
+- Modbus
+- Rest API
+- etc.
+tested for specific devices in installations
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>390</x><y>90</y><w>300</w><h>130</h></coordinates><panel_attributes>bg=red
+*XML Files for:*
+- Heat pumps (Stiebel Eltron, CTA)
+- EV charger boxes (Wallbe)
+- Auxiliary actuators, sensors
+
+for devices in existing installations</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLNote</id><coordinates><x>390</x><y>240</y><w>300</w><h>330</h></coordinates><panel_attributes>bg=yellow
+*Input from SmartGridReady:*
+- External interface mechanism
+- XML templates
+- Code templates
+- IT know-how
+
+*Feedback to SmartGridReady:*
+- Energy Management know-how
+- Controller know-how
+- Device specific know-how (i.e. heat pumps)
+- Open CEM project
+
+*Ressources:*
+- Software structure defined by D. Zogg, SEE GmbH
+- Content and testing performed by students, FHNW
+- Ongoing project next years, no fixed schedule
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>70</x><y>0</y><w>620</w><h>40</h></coordinates><panel_attributes>halign=left
+General Documentation Project OpenCEM
+doc_evm_general.uxf, V0.2, 09.06.2022, D. Zogg, Smart Energy Engineering GmbH</panel_attributes><additional_attributes></additional_attributes></element></diagram>

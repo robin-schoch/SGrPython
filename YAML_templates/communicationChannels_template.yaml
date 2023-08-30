@@ -1,0 +1,22 @@
+# this yaml shows the templates for all the available communication channels
+
+communicationChannels:
+- id: 7de29627-78c8-4702-a1b3-a89ca9ad15ce
+  name: Modbus RTU
+  type: MODBUS_RTU
+  extra:
+    baudrate: 19200
+    port: COM5  # Hardware port, on Raspberry Pi most likely: /dev/ttyUSBX where X is a number
+    parity: EVEN
+- id: defdec2b-e720-477b-b1c4-f5f884f31ffa
+  name: Modbus TCP
+  type: MODBUS_TCP
+  extra:
+    address: 192.168.0.8
+    port: 502
+- id: bbf5b795-11af-4d0e-9386-eeb28a38a776
+  name: Shelly Cloud
+  type: SHELLY_CLOUD
+  extra:
+    authKey: MTUyNjU5dWlk6D39.....  # obtained in Shelly App
+    serverAddress: https://shelly-54-eu.shelly.cloud/ # server can be different for another location

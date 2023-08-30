@@ -1,0 +1,71 @@
+# This template is for the different types of power sensors
+
+# Shelly power sensor 3EM
+- id: 04102076-205c-46d2-bcf0-4811e42a94ee
+  name: Zaehler Name
+  manufacturer: Shelly
+  model: 3EM
+  type: POWER_SENSOR
+  smartGridreadyFileId: null
+  communicationId: abf22988-79e8-4e25-8c61-2c5953390ec1 # has to match with the id of communication channel SHELLY_LOCAL
+  isLogging: true
+  extra:
+    address: 192.168.0.26    # address of the device can be found in the Shelly app
+    hasEnergyExport: true
+    maxPower: 10
+
+# ABB B23 112-100 via CEM-Cloud SGr UUID
+- id: 45e8e22d-7586-43b7-88f9-c5af55a625e2
+  name: Zaehler Nummer 1
+  manufacturer: ABB
+  model: ABB B23 112-100
+  type: POWER_SENSOR
+  smartGridreadyFileId: 7e7ac45e-22a6-4823-a47d-3aa5548fc3c6  # this id will be automatically added by CEM-Cloud
+  communicationId: 7de29627-78c8-4702-a1b3-a89ca9ad15ce
+  isLogging: true
+  extra:
+    address: '1'
+    hasEnergyExport: false
+    maxPower: 10
+
+# ABB B23 112-100 with local SGr-XML path
+- id: 45e8e22d-7586-43b7-88f9-c5af55a625e2
+  name: Zaehler Nummer 1
+  manufacturer: ABB
+  model: ABB B23 112-100
+  type: POWER_SENSOR
+  smartGridreadyFileId: "xml_files/SGr_04_0016_xxxx_ABBMeterV0.2.1_Sergio.xml"
+  communicationId: 7de29627-78c8-4702-a1b3-a89ca9ad15ce
+  isLogging: true
+  extra:
+    address: '1'
+    hasEnergyExport: false
+    maxPower: 10
+
+# ABB B23 112-100 initialized with model name
+- id: 45e8e22d-7586-43b7-88f9-c5af55a625e2
+  name: Zaehler Nummer 1
+  manufacturer: ABB
+  model: ABB B23 112-100
+  type: POWER_SENSOR
+  smartGridreadyFileId:
+  communicationId: 7de29627-78c8-4702-a1b3-a89ca9ad15ce
+  isLogging: true
+  extra:
+    address: '1'
+    hasEnergyExport: false
+    maxPower: 10
+
+# ABB B23 312-100 initialized with model name
+- id: 45e8e22d-7586-43b7-88f9-c5af55a625e2
+  name: Zaehler Nummer 1
+  manufacturer: ABB
+  model: ABB B23 312-100
+  type: POWER_SENSOR
+  smartGridreadyFileId:
+  communicationId: 7de29627-78c8-4702-a1b3-a89ca9ad15ce
+  isLogging: true
+  extra:
+    address: '1'
+    hasEnergyExport: false
+    maxPower: 10

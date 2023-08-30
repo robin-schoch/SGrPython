@@ -1,0 +1,28 @@
+# This template is for the different relais
+
+# Shelly Pro 2PM relais
+actuators:
+- id: d97045f7-12c5-4872-95ae-96e7d2f573e8
+  name: Erstes Relais
+  manufacturer: Shelly
+  model: PRO_2PM
+  type: RELAIS
+  smartGridreadyFileId: null
+  communicationId: 4a8c0042-ced3-40f3-9527-895dafa09055
+  isLogging: true
+  extra:
+    address: 192.168.1.112
+    nChannels: 2
+
+# Shelly Pro 4PM relais
+- id: cb2b05f1-5786-4041-a0d0-7fbf7e2689d8
+  name: Zweites Relais
+  manufacturer: Shelly
+  model: PRO_4PM
+  type: RELAIS
+  smartGridreadyFileId: null
+  communicationId: 4a8c0042-ced3-40f3-9527-895dafa09055
+  isLogging: true
+  extra:
+    address: 192.168.1.114
+    nChannels: 4

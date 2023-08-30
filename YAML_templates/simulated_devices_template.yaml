@@ -1,0 +1,117 @@
+# This yaml is a template for a simulated OpenCEM System
+
+installationName: EFH Test
+creationTimestamp: 2023-05-19T17:33:32.841Z
+version: 1
+
+devices:
+- id: 09a38cda-c96d-4e98-9a64-94923e3e1f89
+  name: PV-Anlage
+  manufacturer: Musterfabrik
+  model: PV Mustermodel
+  type: PV_PLANT
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    isSimulated: true
+    maxPower: 5
+- id: 02f75951-ad0e-44b8-b534-ea056e62b2a1
+  name: Hausanschluss
+  manufacturer: null
+  model: null
+  type: CENTRAL_POWER_METER
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    maxPower: 10
+    isSimulated: true
+- id: 2453e61d-0474-4da7-9e12-b0c6e8b2a2c0
+  name: Meine Waermepumpe
+  manufacturer: Musterfabrik
+  model: null
+  type: HEAT_PUMP
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    nominalPower: 5
+    isSimulated: true
+    idController: 3d0fc92c-89ec-40a8-b5ea-985bac8927f8
+    powerDict: # added if simulated and multiple modes. describes consumption in this mode
+      0: 0
+      1: 0.5
+      2: 2.5
+      3: 4.5
+- id: b304a40a-f53a-4d7f-b001-91eaf26418b8
+  name: Ladestation
+  manufacturer: Musterfabrik
+  model: WALLBE_ECO_S
+  type: EV_CHARGER
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    nominalPower: 6
+    isSimulated: true
+    idController: aed28291-970c-4f3c-9692-08cb5b941811
+- id: b079fc7f-a1f4-440e-aceb-d3fd590e8cf7
+  name: Elektroheizung
+  manufacturer: Musterfabrik
+  model: null
+  type: POWER_TO_HEAT
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    nominalPower: 1
+    isSimulated: true
+    idController: d8ed7d0f-0fb0-41cd-aebe-777f4145dba1
+- id: e22755a0-4f39-4504-8f1e-d0146dc1a9c7
+  name: Waschmaschine
+  manufacturer: IKEA
+  model: null
+  type: HOUSEHOLD_APPLIANCES
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    nominalPower: 0.5
+    isSimulated: true
+    idController: 58c76ef0-1d50-41c1-a4e7-e8d78261a608
+- id: d8310773-9297-446d-b1eb-3c2f63268er0
+  type: REMAINING_CONSUMPTION
+  isLogging: true
+  extra:
+    minPower: 1.5
+    maxPower: 1.7
+    deviceSetting: SIMULATED
+controllers:
+- id: 58c76ef0-1d50-41c1-a4e7-e8d78261a608
+  type: EXCESS_CONTROLLER
+  extra:
+    limit: 2
+- id: 3d0fc92c-89ec-40a8-b5ea-985bac8927f8
+  type: STEPWISE_EXCESS_CONTROLLER
+  extra:
+    limits:
+    - 1
+    - 3
+    - 5
+- id: d8ed7d0f-0fb0-41cd-aebe-777f4145dba1
+  type: COVERAGE_CONTROLLER
+  extra:
+    limit: 1.3
+- id: aed28291-970c-4f3c-9692-08cb5b941811
+  type: DYNAMIC_EXCESS_CONTROLLER
+  extra:
+    limitMax: 8
+    limitMin: 4
+- id: 08cdf5f8-94ae-48fe-8ce6-53d01e545c72
+  type: PRICE_CONTROLLER
+  extra:
+    gridTarif: 15
+    minState: 19
+    maxState: 23
+    solarTarif: 6

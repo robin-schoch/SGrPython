@@ -1,0 +1,153 @@
+# This template is for the devices and the multiple possibilities to initialize them
+# the UUID's are just examples
+
+# PV plant
+- id: 09a38cda-c96d-4e98-9a64-94923e3e1f89
+  name: PV-Anlage
+  manufacturer: Musterfabrik
+  model: PV Mustermodel
+  type: PV_PLANT
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    idPowerSensor: 45e8e22d-7586-43b7-88f9-c5af55a625e2
+    isSimulated: false
+    maxPower: 5
+
+# Central power meter with bidirectional meter
+- id: 02f75951-ad0e-44b8-b534-ea056e62b2a1
+  name: Hausanschluss
+  manufacturer: null
+  model: null
+  type: CENTRAL_POWER_METER
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    isBidirectional: true
+    idPowerSensor: aa2c4f9a-54e8-4959-acca-9ad626f7831e
+    isSimulated: false
+    maxPower: 10
+
+# Central power meter with production and consumption meter
+- id: 832edb56-e87f-49e0-951c-45bc41c91336
+  name: Hausanschluss
+  manufacturer: null
+  model: null
+  type: CENTRAL_POWER_METER
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    idPowerSensorTotalConsumption: 89e38f04-4871-4ae4-adb7-1dd6e53cb7f9
+    idPowerSensorProduction: 578a38a4-0fac-4f60-b9c0-e3276bb70e11
+    isBidirectional: false
+    isSimulated: false
+    maxPower: 10
+
+# Heat pump with 4 modes
+- id: 2453e61d-0474-4da7-9e12-b0c6e8b2a2c0
+  name: Waermepumpe
+  manufacturer: Musterfabrik
+  model: null
+  type: HEAT_PUMP
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    idPowerSensor: b11b8a85-bb44-4f21-ac7c-84a89adf37c7
+    nominalPower: 5
+    isSimulated: false
+    idTempSensorRoom: 346aeed2-cfae-4409-bf5c-01b856648690
+    idRelais: d97045f7-12c5-4872-95ae-96e7d2f573e8
+    channels:   # the used channel numbers of the relais
+    - 0
+    - 1
+    channelConfig:  # Combinations that lead to the modes
+    - '11'  # Mode 0 = off
+    - '10'  # Mode 1 = for example eco
+    - '01'  # Mode 2 = for example normal power
+    - '00'  # Mode 3 = for example max power
+    idController: 3d0fc92c-89ec-40a8-b5ea-985bac8927f8
+
+# EV Charger wallbe eco s
+- id: 0c4cab7e-6bbf-4f1e-a2fc-73c7e9716961
+  name: Ladestation
+  manufacturer: Compleo
+  model: WALLBE_ECO_S
+  type: EV_CHARGER
+  smartGridreadyFileId: null
+  communicationId: e12744af-2bb8-4355-823d-d9c99b28e753
+  isLogging: true
+  extra:
+    address: '255'
+    nominalPower: 6
+    phases: SINGLE_PHASE  # possible entries: SINGLE_PHASE and TRIPPLE_PHASES
+    idController: 2ba33ddd-de5d-4da8-85bc-ed8ccb510d90
+
+# Power to heat with temperature sensor
+- id: 990a98a1-6c5f-4a02-b85a-002549f82a49
+  name: Elektroheizung
+  manufacturer: null
+  model: null
+  type: POWER_TO_HEAT
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    nominalPower: 1 # in kW
+    idTempSensorRoom: d87c8d0f-4a56-414d-8d1f-b8fdc4815eae
+    idRelais: 1fecebd0-e482-48a0-84e0-00dc2997d1df
+    idPowerSensor: 74e662c4-2b4a-490c-afa0-dfca3c912c46
+    idController: 30b4b127-4a23-427c-ae2e-9759bf2f580a
+    channels:
+    - '0'
+    isSimulated: false
+
+# Household appliances with relais
+- id: e22755a0-4f39-4504-8f1e-d0146dc1a9c7
+  name: Meine Lampe
+  manufacturer: IKEA
+  model: null
+  type: HOUSEHOLD_APPLIANCES
+  smartGridreadyFileId: null
+  communicationId: null
+  isLogging: true
+  extra:
+    idPowerSensor: b11b8a85-bb44-4f21-ac7c-84a89adf37c7
+    nominalPower: 1 # in kW
+    isSimulated: false
+    idRelais: d97045f7-12c5-4872-95ae-96e7d2f573e8
+    channels:
+    - 1
+    idController: 58c76ef0-1d50-41c1-a4e7-e8d78261a608
+
+# Remaining consumption calculated with central power meter
+- id: d6ae5f18-3360-457d-897e-ea08f01e166c
+  name: "Remaining consumption"
+  manufacturer: null
+  model: null
+  type: REMAINING_CONSUMPTION
+  isLogging: true
+  extra:
+    deviceSetting: CALCULATED
+
+# Remaining consumption calculated measured with meter
+- id: d6ae5f18-3360-457d-897e-ea08f01e166c
+  name: "Remaining consumption"
+  type: REMAINING_CONSUMPTION
+  isLogging: true
+  extra:
+    deviceSetting: MEASURED
+    idPowerSensor: b11b8a85-bb44-4f21-ac7c-84a89adf37c7
+
+# Remaining consumption simulated
+- id: d6ae5f18-3360-457d-897e-ea08f01e166c
+  name: "Remaining consumption"
+  type: REMAINING_CONSUMPTION
+  isLogging: true
+  extra:
+    deviceSetting: SIMULATED  # consumption will be a random number between limits
+    maxLimit: 1
+    minLimit: 2

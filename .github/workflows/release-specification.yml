@@ -1,4 +1,4 @@
-name: Publish and Update Dependency
+name: Release Python SGrSpecification
 
 on:
   workflow_dispatch:

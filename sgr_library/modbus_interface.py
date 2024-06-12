@@ -71,7 +71,6 @@ class ModBusTCPFunctionProfile(FunctionProfile):
                self._fp.data_point_list.data_point_list_element]
         self._data_points = {dp.name(): dp for dp in dps}
 
-
     def name(self) -> str:
         return self._fp.functional_profile.functional_profile_name
 

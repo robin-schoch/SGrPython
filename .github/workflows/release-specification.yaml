@@ -1,0 +1,56 @@
+name: Publish and Update Dependency
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install xsdata
+
+      - name: Clone Repository
+        uses: actions/checkout@v2
+        with:
+          repository: 'SmartGridready/SGrSpecifications'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run xsdata Command
+        run: xsdata SchemaDatabase/SGr -r
+
+#      - name: Publish to PyPI
+#        uses: pypa/gh-action-pypi-publish@v1.4.2
+#        with:
+#          password: ${{ secrets.PYPI_API_TOKEN }}
+#
+#      - name: Checkout Original Repo & Create New Branch
+#        uses: actions/checkout@v2
+#        with:
+#          ref: 'master'
+#        run: |
+#          git checkout -b update-dependency
+#          # Update your dependency here, e.g., by modifying a requirements.txt or setup.py
+#
+#      - name: Commit and Push Changes
+#        run: |
+#          git config --global user.email "you@example.com"
+#          git config --global user.name "Your Name"
+#          git add .
+#          git commit -m "Update dependency to latest version"
+#          git push origin update-dependency
+#
+#      - name: Create Pull Request
+#        uses: repo-sync/pull-request@v2
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          pr_title: "Update dependency to latest version"
+#          pr_body: "This PR updates the dependency to the newly published version on PyPI."
+#          branch: "update-dependency"

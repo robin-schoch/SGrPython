@@ -15,7 +15,7 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install xsdata[cli]
+          pip install xsdata[cli] wheel twine
 
       - name: Check Python and xsdata versions
         run: |
@@ -37,6 +37,9 @@ jobs:
         run: ls sgrpython
       - name: Copy Setup File
         run: cp ./sgrpython/specification/setup.py .
+
+      - name: Build Package
+        run: python setup.py sdist bdist_wheel
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@v1.4.2
         with:

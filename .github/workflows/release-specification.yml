@@ -70,7 +70,7 @@ jobs:
           git checkout -b version-update-${{ steps.version_bump.outputs.new_version }}
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add setup.py
+          git add .
           git commit -m "Bump version to ${{ steps.version_bump.outputs.new_version }}"
           git push --set-upstream origin version-update-${{ steps.version_bump.outputs.new_version }}
       - name: Create Pull Request

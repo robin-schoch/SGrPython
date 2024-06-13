@@ -54,9 +54,9 @@ jobs:
             PATCH=${ADDR[2]}
             NEW_PATCH=$((PATCH + 1))
             NEW_VERSION="${ADDR[0]}.${ADDR[1]}.$NEW_PATCH"
-            sed -i "s/$CURRENT_VERSION/$NEW_VERSION/g" setup.py
+            sed -i "s/$CURRENT_VERSION/$NEW_VERSION/g" ./sgrpython/specification/setup.py
             echo "Updated version to $NEW_VERSION"
-            cat setup.py
+            cat ./sgrpython/specification/setup.py
 #
 #      - name: Checkout Original Repo & Create New Branch
 #        uses: actions/checkout@v2

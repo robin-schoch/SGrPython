@@ -47,16 +47,18 @@ jobs:
 
       - name: Bump Patch Version
         run: |
-            # Extract current version, increment patch number, and update setup.py
-            VERSION_LINE=$(grep 'version=' setup.py)
-            CURRENT_VERSION=$(echo $VERSION_LINE | grep -oP "(?<=').*(?=')")
-            IFS='.' read -ra ADDR <<< "$CURRENT_VERSION"
-            PATCH=${ADDR[2]}
-            NEW_PATCH=$((PATCH + 1))
-            NEW_VERSION="${ADDR[0]}.${ADDR[1]}.$NEW_PATCH"
-            sed -i "s/$CURRENT_VERSION/$NEW_VERSION/g" ./sgrpython/specification/setup.py
-            echo "Updated version to $NEW_VERSION"
-            cat ./sgrpython/specification/setup.py
+          # Extract current version, increment patch number, and update setup.py
+          VERSION_LINE=$(grep 'version=' setup.py)
+          CURRENT_VERSION=$(echo $VERSION_LINE | grep -oP "(?<=').*(?=')")
+          IFS='.' read -ra ADDR <<< "$CURRENT_VERSION"
+          PATCH=${ADDR[2]}
+          NEW_PATCH=$((PATCH + 1))
+          NEW_VERSION="${ADDR[0]}.${ADDR[1]}.$NEW_PATCH"
+          sed -i "s/$CURRENT_VERSION/$NEW_VERSION/g" ./sgrpython/specification/setup.py
+          sed -i "s/SGrSpecificationPythontks4r==.*/SGrSpecificationPythontks4r==$NEW_VERSION/g" ./sgrpython/requirements.txt
+          echo "Updated version to $NEW_VERSION"
+          cat ./sgrpython/specification/setup.py
+          cat ./sgrpython/requirements.txt
 #
 #      - name: Checkout Original Repo & Create New Branch
 #        uses: actions/checkout@v2

@@ -29,6 +29,13 @@ jobs:
 
       - name: Run xsdata Command
         run: xsdata SchemaDatabase/SGr -r --package sgrspecification
+      - name: Checkout Current Repository
+        uses: actions/checkout@v2
+        with:
+          path: 'sgrpython'
+      - name: Copy Setup File
+        run: sgrpython/specification/setup.py .
+
 
 #      - name: Publish to PyPI
 #        uses: pypa/gh-action-pypi-publish@v1.4.2

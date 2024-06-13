@@ -9,4 +9,6 @@ setup(
     author='robin',
     author_email='',
     description='',
+    long_description='',
+    long_description_content_type='text/plain',
 )

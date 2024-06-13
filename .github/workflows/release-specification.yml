@@ -17,6 +17,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install xsdata[cli]
 
+      - name: Check Python and xsdata versions
+        run: |
+          python --version
+          pip show xsdata
+
       - name: Clone Repository
         uses: actions/checkout@v2
         with:

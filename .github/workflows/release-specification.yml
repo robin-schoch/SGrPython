@@ -37,12 +37,10 @@ jobs:
         run: ls sgrpython
       - name: Copy Setup File
         run: cp ./sgrpython/specification/setup.py .
-
-
-#      - name: Publish to PyPI
-#        uses: pypa/gh-action-pypi-publish@v1.4.2
-#        with:
-#          password: ${{ secrets.PYPI_API_TOKEN }}
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@v1.4.2
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}
 #
 #      - name: Checkout Original Repo & Create New Branch
 #        uses: actions/checkout@v2

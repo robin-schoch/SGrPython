@@ -28,7 +28,7 @@ jobs:
           repository: 'SmartGridready/SGrSpecifications'
 
       - name: Run xsdata Command
-        run: xsdata SchemaDatabase/SGr -r
+        run: xsdata SchemaDatabase/SGr -r --package sgrspecification
 
 #      - name: Publish to PyPI
 #        uses: pypa/gh-action-pypi-publish@v1.4.2

@@ -8,7 +8,7 @@ def read_requirements() -> list[str]:
 
 setup(
     name='SGrPythontks4r',
-    version='0.1.2',
+    version='0.1.3',
     packages=['sgr_library', 'sgr_library.generated', 'sgr_library.generated.generic',
               'sgr_library.generated.product', 'sgr_library.generated.communicator',
               'sgr_library.generated.functional_profile', 'sgr_library.api', 'sgr_library.validators',

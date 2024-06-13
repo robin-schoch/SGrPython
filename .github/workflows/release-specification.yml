@@ -36,7 +36,7 @@ jobs:
       - name: ls
         run: ls sgrpython
       - name: Copy Setup File
-        run: ./sgrpython/specification/setup.py ./sgrspecification/setup.py
+        run: cp ./sgrpython/specification/setup.py .
 
 
 #      - name: Publish to PyPI

@@ -1,14 +1,36 @@
 name: Release Python SGrSpecification
 
 on:
+  repository_dispatch:
+    types: [ new-tag-created ]
   workflow_dispatch:
+    inputs:
+      tag_name:
+        description: 'Tag to checkout and build'
+        required: true
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     outputs:
       new_version: ${{ steps.version_bump.outputs.new_version }}
+      original_tag: ${{ steps.set_tag.outputs.original_tag}}
+      semver: ${{ steps.set_tag.outputs.semver}}
     steps:
+      - name: Set tag
+        id: set_tag
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "Original tag: ${{ github.event.inputs.tag }}"
+            TAG="${{ github.event.inputs.tag }}"
+          else
+            echo "Original tag: ${{ github.event.client_payload.tag }}"
+            TAG="${{ github.event.client_payload.tag }}"
+          fi
+          SEMVER="${TAG:1}"  # This removes the first character, assuming it's 'v'
+          echo "::set-output name=original_tag::$TAG"
+          echo "::set-output name=semver::$SEMVER"
+
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -28,6 +50,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: 'SmartGridready/SGrSpecifications'
+          ref: ${{ steps.set_tag.outputs.current_tag }}
 
       - name: Run xsdata Command
         run: xsdata SchemaDatabase/SGr -r --package sgrspecification
@@ -38,7 +61,9 @@ jobs:
       - name: ls
         run: ls sgrpython
       - name: Copy Setup File
-        run: cp ./sgrpython/specification/setup.py .
+        run: |
+          cp ./sgrpython/specification/setup.py .
+          sed -i "s/{{tag}}/${{ steps.set_tag.outputs.semver }}/g" ./sgrpython/specification/setup.py
 
       - name: Build Package
         run: python setup.py sdist bdist_wheel
@@ -50,37 +75,26 @@ jobs:
       - name: Bump Patch Version
         id: version_bump
         run: |
-          # Extract current version, increment patch number, and update setup.py
-          VERSION_LINE=$(grep 'version=' setup.py)
-          CURRENT_VERSION=$(echo $VERSION_LINE | grep -oP "(?<=').*(?=')")
-          IFS='.' read -ra ADDR <<< "$CURRENT_VERSION"
-          PATCH=${ADDR[2]}
-          NEW_PATCH=$((PATCH + 1))
-          NEW_VERSION="${ADDR[0]}.${ADDR[1]}.$NEW_PATCH"
-          sed -i "s/$CURRENT_VERSION/$NEW_VERSION/g" ./sgrpython/specification/setup.py
-          sed -i "s/SGrSpecificationPythontks4r==.*/SGrSpecificationPythontks4r==$CURRENT_VERSION/g" ./sgrpython/requirements.txt
-          echo "Updated version to $NEW_VERSION"
-          cat ./sgrpython/specification/setup.py
+          sed -i "s/SGrSpecificationPythontks4r==.*/SGrSpecificationPythontks4r==${{ steps.set_tag.outputs.semver }}/g" ./sgrpython/requirements.txt
+          echo "Updated version to ${{ steps.set_tag.outputs.semver }} in requirements.txt"
           cat ./sgrpython/requirements.txt
-          echo "::set-output name=new_version::$NEW_VERSION"
       - name: Create a new branch
         run: |
-          echo ${{ steps.version_bump.outputs.new_version }}
           cd ./sgrpython
-          git checkout -b version-update-${{ steps.version_bump.outputs.new_version }}
+          git checkout -b version-update-${{ steps.set_tag.outputs.semver }}
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git add .
-          git commit -m "Bump version to ${{ steps.version_bump.outputs.new_version }}"
-          git push --set-upstream origin version-update-${{ steps.version_bump.outputs.new_version }}
+          git commit -m "Bump version to ${{ steps.set_tag.outputs.semver }}"
+          git push --set-upstream origin version-update-${{ steps.set_tag.outputs.semver }}
       - name: Create Pull Request
         uses: actions/github-script@v6
         with:
           script: |
-            const title = `Bump SGr Specification version to ${{ steps.version_bump.outputs.new_version }}`
-            const body = `This PR is to bump the version in setup.py for SGr Specification to ${{ steps.version_bump.outputs.new_version }}`
+            const title = `Bump SGr Specification version to ${{ steps.set_tag.outputs.semver }}`
+            const body = `This PR is to bump the version in setup.py for SGr Specification to ${{ steps.set_tag.outputs.semver }}`
             const base = 'master'
-            const head = `version-update-${{ steps.version_bump.outputs.new_version }}`
+            const head = `version-update-${{ steps.set_tag.outputs.semver }}`
             const createPullRequest = await github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -90,27 +104,3 @@ jobs:
               base: base
             });
             console.log("Pull request created: #" + createPullRequest.data.number);
-#
-#      - name: Checkout Original Repo & Create New Branch
-#        uses: actions/checkout@v2
-#        with:
-#          ref: 'master'
-#        run: |
-#          git checkout -b update-dependency
-#          # Update your dependency here, e.g., by modifying a requirements.txt or setup.py
-#
-#      - name: Commit and Push Changes
-#        run: |
-#          git config --global user.email "you@example.com"
-#          git config --global user.name "Your Name"
-#          git add .
-#          git commit -m "Update dependency to latest version"
-#          git push origin update-dependency
-#
-#      - name: Create Pull Request
-#        uses: repo-sync/pull-request@v2
-#        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          pr_title: "Update dependency to latest version"
-#          pr_body: "This PR updates the dependency to the newly published version on PyPI."
-#          branch: "update-dependency"

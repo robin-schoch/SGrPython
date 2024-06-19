@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='SGrSpecificationPythontks4r',
-    version='{{tag}}',
+    version='0.2.2',
     packages=find_packages(),
     url='https://github.com/robin-schoch/SGrPython',
     license='',
